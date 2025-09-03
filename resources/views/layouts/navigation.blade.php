@@ -44,6 +44,26 @@
             </a>
         </li>
         <li class="nav-item">
+            <a class="nav-link d-flex align-items-center text-dark {{ request()->routeIs('admin.member.index') || request()->routeIs('admin.store.index')  ? ' active' : 'text-dark' }}" href="#memberSubmenu" data-bs-toggle="collapse" aria-expanded="{{ request()->routeIs('admin.member.index') || request()->routeIs('admin.store.index')  ? 'true' : 'false' }}">
+                <span>
+                    <i class="bi bi-people me-2"></i>
+                    <span class="nav-text">Costomer</span>
+                </span>
+            </a>
+            <ul class="collapse list-unstyled ps-4 {{ request()->routeIs('admin.member.index') || request()->routeIs('admin.store.index')  ? 'show' : 'text-dark' }}" id="memberSubmenu">
+                <li>
+                    <a class="nav-link{{ request()->routeIs('admin.member.index') ? ' active' : 'text-dark' }}" href="{{ route('admin.member.index') }}">
+                        <span class="nav-text">Member</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="nav-link{{ request()->routeIs('admin.store.index') ? ' active' : 'text-dark' }}" href="{{ route('admin.store.index') }}">
+                        <span class="nav-text">Store</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="nav-item">
             <a class="nav-link d-flex align-items-center text-dark {{ request()->routeIs('admin.setting.index') || request()->routeIs('admin.setting.privacy_policy') || request()->routeIs('admin.setting.term_and_condition') ? ' active' : 'text-dark' }}" href="#settingSubmenu" data-bs-toggle="collapse" aria-expanded="{{ request()->routeIs('admin.setting.index') || request()->routeIs('admin.setting.privacy_policy') || request()->routeIs('admin.setting.term_and_condition') ? 'true' : 'false' }}">
                 <span>
                     <i class="bi bi-gear me-2"></i>

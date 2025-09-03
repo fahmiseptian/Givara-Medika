@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\Customer\Member\MemberController;
+use App\Http\Controllers\Admin\Customer\Store\StoreController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\SettingController;
 use Illuminate\Support\Facades\Route;
@@ -17,4 +19,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::resource('setting', SettingController::class);
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    Route::resource('member', MemberController::class);
+    Route::resource('store', StoreController::class);
 });
