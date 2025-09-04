@@ -1,108 +1,149 @@
 <!-- Sidebar -->
-<nav
-    class="sidebar bg-white border-end border-gray-200 vh-100 p-3 shadow-sm"
-    :class="{'sidebar-mobile-open': open, 'sidebar-mobile-closed': !open && window.innerWidth < 768}"
+<nav class="fixed top-0 left-0 h-screen bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 p-3 shadow-sm dark:shadow-lg transition-all duration-200 ease-in-out z-[1031]
+           md:relative md:z-30"
+    :class="{
+        // Mobile state (default for small screens)
+        'w-[220px] min-w-[220px] max-w-[80vw]': true, // Base mobile width
+        '-translate-x-full': !open && window.innerWidth < 768, // Mobile closed
+        'translate-x-0': open && window.innerWidth < 768, // Mobile open
+    
+        // Desktop state (default for large screens)
+        'md:w-[250px] md:min-w-[250px] md:max-w-[250px]': open && window.innerWidth >= 768, // Desktop open
+        'md:w-[70px] md:min-w-[70px] md:max-w-[70px]': !open && window.innerWidth >= 768 // Desktop collapsed
+    }"
     x-cloak>
-    <div class="d-flex align-items-center justify-content-between mb-4">
-        <a href="#" class="d-flex align-items-center text-decoration-none">
-            <img src="{{ $setting->logo_url }}" class="me-2" style="height: 36px; width: auto;" />
-            <span x-show="open || window.innerWidth >= 768" x-transition.opacity class="fw-bold text-dark ms-1">
+    <div class="flex items-center justify-between mb-4">
+        <a href="#" class="flex items-center no-underline">
+            <img src="{{ $setting->logo_url }}" class="mr-2 h-9 w-auto" />
+            <span x-show="open || window.innerWidth >= 768" x-transition.opacity
+                class="font-bold text-gray-900 dark:text-gray-200 ml-1">
                 {{ $setting->store_name }}
             </span>
         </a>
 
         <!-- Tombol tutup (mobile) -->
-        <button
-            @click="open = false"
-            class="btn btn-sm btn-light border ms-2 d-md-none"
-            type="button"
-            aria-label="Tutup sidebar">
+        <button @click="open = false"
+            class="bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md px-2 py-1 text-sm border border-gray-300 dark:border-gray-600 ml-2 md:hidden"
+            type="button" aria-label="Tutup sidebar">
             <i class="bi bi-x-lg"></i>
         </button>
     </div>
 
-    <ul class="nav nav-pills flex-column mb-auto gap-1">
-        @if(Auth::user() && Auth::user()->role === 'admin')
-        <li class="nav-item">
-            <a href="{{ route('admin.dashboard') }}" class="nav-link d-flex align-items-center {{ request()->routeIs('admin.dashboard') ? 'active' : 'text-dark' }}">
-                <i class="bi bi-speedometer2 me-2"></i>
-                <span x-show="open || window.innerWidth >= 768" x-transition.opacity>Dashboard</span>
-            </a>
-        </li>
+    <ul class="flex flex-col mb-auto space-y-1">
+        @if (Auth::user() && Auth::user()->role === 'admin')
+            <li>
+                <a href="{{ route('admin.dashboard') }}"
+                    class="flex items-center py-2 px-3 rounded-md transition-colors duration-200 relative {{ request()->routeIs('admin.dashboard') ? 'bg-gray-200 dark:bg-gray-700 text-primary' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-primary' }}">
+                    <i class="bi bi-speedometer2 mr-2"></i>
+                    <span x-show="open || window.innerWidth >= 768" x-transition.opacity>Dashboard</span>
+                </a>
+            </li>
         @else
-        <li class="nav-item">
-            <a href="{{ route('dashboard') }}" class="nav-link d-flex align-items-center {{ request()->routeIs('dashboard') ? 'active' : 'text-dark' }}">
-                <i class="bi bi-speedometer2 me-2"></i>
-                <span x-show="open || window.innerWidth >= 768" x-transition.opacity>Dashboard</span>
-            </a>
-        </li>
+            <li>
+                <a href="{{ route('dashboard') }}"
+                    class="flex items-center py-2 px-3 rounded-md transition-colors duration-200 relative {{ request()->routeIs('dashboard') ? 'bg-gray-200 dark:bg-gray-700 text-primary' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-primary' }}">
+                    <i class="bi bi-speedometer2 mr-2"></i>
+                    <span x-show="open || window.innerWidth >= 768" x-transition.opacity>Dashboard</span>
+                </a>
+            </li>
         @endif
         <li>
-            <a href="{{ route('profile.edit') }}" class="nav-link d-flex align-items-center {{ request()->routeIs('profile.edit') ? 'active' : 'text-dark' }}">
-                <i class="bi bi-person me-2"></i>
+            <a href="{{ route('profile.edit') }}"
+                class="flex items-center py-2 px-3 rounded-md transition-colors duration-200 relative {{ request()->routeIs('profile.edit') ? 'bg-gray-200 dark:bg-gray-700 text-primary' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-primary' }}">
+                <i class="bi bi-person mr-2"></i>
                 <span x-show="open || window.innerWidth >= 768" x-transition.opacity>Profile</span>
             </a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link d-flex align-items-center text-dark {{ request()->routeIs('admin.member.index') || request()->routeIs('admin.store.index')  ? ' active' : 'text-dark' }}" href="#memberSubmenu" data-bs-toggle="collapse" aria-expanded="{{ request()->routeIs('admin.member.index') || request()->routeIs('admin.store.index')  ? 'true' : 'false' }}">
-                <span>
-                    <i class="bi bi-people me-2"></i>
-                    <span class="nav-text">Costomer</span>
-                </span>
+        <li x-data="{ submenuOpen: {{ request()->routeIs('admin.member.index') || request()->routeIs('admin.store.index') ? 'true' : 'false' }} }">
+            <a @click="submenuOpen = !submenuOpen"
+                class="flex items-center py-2 px-3 rounded-md cursor-pointer transition-colors duration-200 relative
+                      {{ request()->routeIs('admin.member.index') || request()->routeIs('admin.store.index') ? 'bg-gray-200 dark:bg-gray-700 text-primary' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-primary' }}">
+                <i class="bi bi-people mr-2"></i>
+                <span x-show="open || window.innerWidth >= 768" x-transition.opacity class="nav-text">Costomer</span>
+                <i class="bi bi-chevron-down ml-auto transition-transform duration-200"
+                    :class="{ 'rotate-180': submenuOpen }"></i>
             </a>
-            <ul class="collapse list-unstyled ps-4 {{ request()->routeIs('admin.member.index') || request()->routeIs('admin.store.index')  ? 'show' : 'text-dark' }}" id="memberSubmenu">
+            <ul x-show="submenuOpen" x-transition:enter="transition ease-out duration-200"
+                x-transition:enter-start="opacity-0 transform scale-y-0"
+                x-transition:enter-end="opacity-100 transform scale-y-100"
+                x-transition:leave="transition ease-in duration-200"
+                x-transition:leave-start="opacity-100 transform scale-y-100"
+                x-transition:leave-end="opacity-0 transform scale-y-0" class="pl-4 mt-1 space-y-1 list-none origin-top">
                 <li>
-                    <a class="nav-link{{ request()->routeIs('admin.member.index') ? ' active' : 'text-dark' }}" href="{{ route('admin.member.index') }}">
-                        <span class="nav-text">Member</span>
+                    <a class="block py-2 px-3 rounded-md text-sm transition-colors duration-200 relative
+                              {{ request()->routeIs('admin.member.index') ? 'bg-gray-200 dark:bg-gray-700 text-primary' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-primary' }}"
+                        href="{{ route('admin.member.index') }}">
+                        <span x-show="open || window.innerWidth >= 768" x-transition.opacity
+                            class="nav-text">Member</span>
                     </a>
                 </li>
                 <li>
-                    <a class="nav-link{{ request()->routeIs('admin.store.index') ? ' active' : 'text-dark' }}" href="{{ route('admin.store.index') }}">
-                        <span class="nav-text">Store</span>
+                    <a class="block py-2 px-3 rounded-md text-sm transition-colors duration-200 relative
+                              {{ request()->routeIs('admin.store.index') ? 'bg-gray-200 dark:bg-gray-700 text-primary' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-primary' }}"
+                        href="{{ route('admin.store.index') }}">
+                        <span x-show="open || window.innerWidth >= 768" x-transition.opacity
+                            class="nav-text">Store</span>
                     </a>
                 </li>
             </ul>
         </li>
-        <li class="nav-item">
-            <a class="nav-link d-flex align-items-center text-dark {{ request()->routeIs('admin.setting.index') || request()->routeIs('admin.setting.privacy_policy') || request()->routeIs('admin.setting.term_and_condition') ? ' active' : 'text-dark' }}" href="#settingSubmenu" data-bs-toggle="collapse" aria-expanded="{{ request()->routeIs('admin.setting.index') || request()->routeIs('admin.setting.privacy_policy') || request()->routeIs('admin.setting.term_and_condition') ? 'true' : 'false' }}">
-                <span>
-                    <i class="bi bi-gear me-2"></i>
-                    <span class="nav-text">Settings</span>
-                </span>
+        <li x-data="{ submenuOpen: {{ request()->routeIs('admin.setting.index') || request()->routeIs('admin.setting.privacy_policy') || request()->routeIs('admin.setting.term_and_condition') ? 'true' : 'false' }} }">
+            <a @click="submenuOpen = !submenuOpen"
+                class="flex items-center py-2 px-3 rounded-md cursor-pointer transition-colors duration-200 relative
+                      {{ request()->routeIs('admin.setting.index') || request()->routeIs('admin.setting.privacy_policy') || request()->routeIs('admin.setting.term_and_condition') ? 'bg-gray-200 dark:bg-gray-700 text-primary' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-primary' }}">
+                <i class="bi bi-gear mr-2"></i>
+                <span x-show="open || window.innerWidth >= 768" x-transition.opacity class="nav-text">Settings</span>
+                <i class="bi bi-chevron-down ml-auto transition-transform duration-200"
+                    :class="{ 'rotate-180': submenuOpen }"></i>
             </a>
-            <ul class="collapse list-unstyled ps-4 {{ request()->routeIs('admin.setting.index') || request()->routeIs('admin.setting.privacy_policy') || request()->routeIs('admin.setting.term_and_condition') ? 'show' : 'text-dark' }}" id="settingSubmenu">
+            <ul x-show="submenuOpen" x-transition:enter="transition ease-out duration-200"
+                x-transition:enter-start="opacity-0 transform scale-y-0"
+                x-transition:enter-end="opacity-100 transform scale-y-100"
+                x-transition:leave="transition ease-in duration-200"
+                x-transition:leave-start="opacity-100 transform scale-y-100"
+                x-transition:leave-end="opacity-0 transform scale-y-0" class="pl-4 mt-1 space-y-1 list-none origin-top">
                 <li>
-                    <a class="nav-link{{ request()->routeIs('admin.setting.index') ? ' active' : 'text-dark' }}" href="{{ route('admin.setting.index') }}">
-                        <span class="nav-text">Site Settings</span>
+                    <a class="block py-2 px-3 rounded-md text-sm transition-colors duration-200 relative
+                              {{ request()->routeIs('admin.setting.index') ? 'bg-gray-200 dark:bg-gray-700 text-primary' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-primary' }}"
+                        href="{{ route('admin.setting.index') }}">
+                        <span x-show="open || window.innerWidth >= 768" x-transition.opacity class="nav-text">Site
+                            Settings</span>
                     </a>
                 </li>
                 <li>
-                    <a class="nav-link{{ request()->routeIs('admin.setting.privacy_policy') ? ' active' : 'text-dark' }}" href="{{ route('admin.setting.privacy_policy') }}">
-                        <span class="nav-text">Privacy Policy</span>
+                    <a class="block py-2 px-3 rounded-md text-sm transition-colors duration-200 relative
+                              {{ request()->routeIs('admin.setting.privacy_policy') ? 'bg-gray-200 dark:bg-gray-700 text-primary' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-primary' }}"
+                        href="{{ route('admin.setting.privacy_policy') }}">
+                        <span x-show="open || window.innerWidth >= 768" x-transition.opacity class="nav-text">Privacy
+                            Policy</span>
                     </a>
                 </li>
                 <li>
-                    <a class="nav-link{{ request()->routeIs('admin.setting.term_and_condition') ? ' active' : 'text-dark' }}" href="{{ route('admin.setting.term_and_condition') }}">
-                        <span class="nav-text">Terms & Conditions</span>
+                    <a class="block py-2 px-3 rounded-md text-sm transition-colors duration-200 relative
+                              {{ request()->routeIs('admin.setting.term_and_condition') ? 'bg-gray-200 dark:bg-gray-700 text-primary' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-primary' }}"
+                        href="{{ route('admin.setting.term_and_condition') }}">
+                        <span x-show="open || window.innerWidth >= 768" x-transition.opacity class="nav-text">Terms &
+                            Conditions</span>
                     </a>
                 </li>
             </ul>
         </li>
     </ul>
 
-    <div class="mt-auto pt-4 border-top">
-        <div class="d-flex align-items-center mb-3">
-            <i class="bi bi-person-circle fs-4 text-secondary"></i>
-            <div x-show="open || window.innerWidth >= 768" x-transition.opacity class="ms-2">
-                <div class="fw-semibold text-dark">{{ Auth::user()->name }}</div>
-                <div class="text-muted small">{{ Auth::user()->email }}</div>
+    <div class="mt-auto pt-4 border-t border-gray-200 dark:border-gray-700">
+        <div class="flex items-center mb-3">
+            <i class="bi bi-person-circle text-xl text-gray-600 dark:text-gray-400"></i>
+            <div x-show="open || window.innerWidth >= 768" x-transition.opacity class="ml-2">
+                <div class="font-semibold text-gray-900 dark:text-gray-200">{{ Auth::user()->name }}</div>
+                <div class="text-sm text-gray-500 dark:text-gray-400">{{ Auth::user()->email }}</div>
             </div>
         </div>
         <form method="POST" action="{{ route('logout') }}">
             @csrf
-            <button type="submit" class="btn btn-outline-danger w-100 d-flex align-items-center justify-content-center">
+            <button type="submit"
+                class="w-full flex items-center justify-center px-4 py-2 border border-red-600 text-base font-medium rounded-md text-red-600 bg-white dark:bg-gray-800 hover:bg-red-50 hover:text-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
                 <i class="bi bi-box-arrow-right"></i>
-                <span x-show="open || window.innerWidth >= 768" x-transition.opacity>Logout</span>
+                <span x-show="open || window.innerWidth >= 768" x-transition.opacity class="ml-2">Logout</span>
             </button>
         </form>
     </div>

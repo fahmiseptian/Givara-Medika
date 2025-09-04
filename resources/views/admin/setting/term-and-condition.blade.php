@@ -1,24 +1,27 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="text-lg font-semibold text-gray-700 leading-tight">
-            Term and Condition
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            <i class="bi bi-journal-text mr-2"></i> {{-- Menggunakan ikon untuk Syarat dan Ketentuan --}}
+            {{ __('Term and Condition') }}
         </h2>
     </x-slot>
 
-    <div class="container my-4">
-        <div class="card shadow-sm">
-            <div class="card-body">
-                <x-alert-form class="mb-3" />
-                <form method="post" action="{{ route('admin.setting.term_and_condition_store') }}"
-                    enctype="multipart/form-data">
-                    @csrf
-                    <div class="mb-2">
-                        <textarea rows="5" name="term_and_condition" id="term-and-condition">
-                        {{ isset($setting) && !old('term_and_condition') ? $setting->term_and_condition : old('term_and_condition') }}
-                        </textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Save</button>
-                </form>
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-lg rounded-lg">
+                <div class="p-6">
+                    <x-alert-form class="mb-6" /> {{-- Menyesuaikan margin bawah --}}
+                    <form method="post" action="{{ route('admin.setting.term_and_condition_store') }}">
+                        @csrf
+                        <div class="mb-4">
+                            <x-input-label for="term-and-condition" :value="__('Term and Condition Content')" />
+                            <textarea id="term-and-condition" name="term_and_condition" rows="10"
+                                class="mt-1 block w-full rounded-md shadow-sm border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600">{{ old('term_and_condition', $setting->term_and_condition ?? '') }}</textarea>
+                            <x-input-error :messages="$errors->get('term_and_condition')" class="mt-2" />
+                        </div>
+                        <x-primary-button>{{ __('Save') }}</x-primary-button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

@@ -11,8 +11,8 @@ class StoreController extends Controller
     // Menampilkan daftar member
     public function index()
     {
-        $members = User::where('role', 'store')->get();
-        return view('admin.customer.store.index', compact('members'));
+        $stores = User::where('role', 'store')->get();
+        return view('admin.customer.store.index', compact('stores'));
     }
 
     // Menampilkan form untuk membuat member baru

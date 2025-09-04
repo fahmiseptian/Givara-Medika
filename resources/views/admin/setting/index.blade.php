@@ -1,122 +1,122 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="text-lg fw-semibold text-gray-700 leading-tight">
-            Site Settings
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            <i class="bi bi-gear mr-2"></i> {{-- Menggunakan ikon pengaturan --}}
+            {{ __('Site Settings') }}
         </h2>
     </x-slot>
 
-    <div class="container my-4">
-        <div class="card shadow-sm border-0 rounded-4">
-            <div class="card-body p-4">
-                <x-alert-form class="mb-3" />
-                <form method="post" action="{{ route('admin.setting.store') }}" enctype="multipart/form-data">
-                    @csrf
-                    <div class="mb-4 d-flex flex-column align-items-center">
-                        <div class="position-relative mb-2">
-                            <img src="{{ $setting->logo_url ?? '' }}" alt="{{ $setting->store_name }}" width="120"
-                                id="preview" class="img-thumbnail rounded-circle shadow-sm border border-3 border-primary" style="object-fit:cover; height:120px;">
-                            <label for="logo" class="position-absolute bottom-0 end-0 translate-middle p-1 bg-white rounded-circle shadow" style="cursor:pointer;">
-                                <i class="bi bi-pencil-square text-primary"></i>
-                                <input class="d-none" accept="image/*" type="file" id="logo" name="logo" />
-                            </label>
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-lg rounded-lg">
+                <div class="p-6">
+                    <x-alert-form class="mb-6" /> {{-- Menyesuaikan margin bawah --}}
+                    <form method="post" action="{{ route('admin.setting.store') }}" enctype="multipart/form-data">
+                        @csrf
+                        <div class="mb-6 flex flex-col items-center"> {{-- Menyesuaikan margin bawah dan kelas Tailwind --}}
+                            <div class="relative mb-2">
+                                <img src="{{ $setting->logo_url ?? asset('images/default-logo.png') }}"
+                                    alt="{{ $setting->store_name ?? 'Store Logo' }}" width="120" id="preview"
+                                    class="w-32 h-32 object-cover rounded-full shadow-md border-4 border-indigo-500 dark:border-indigo-400">
+                                {{-- Menggunakan kelas Tailwind untuk styling --}}
+                                <label for="logo"
+                                    class="absolute bottom-0 right-0 transform translate-x-1/4 translate-y-1/4 p-2 bg-white dark:bg-gray-700 rounded-full shadow-md cursor-pointer">
+                                    {{-- Menggunakan kelas Tailwind untuk styling dan dark mode --}}
+                                    <i class="bi bi-pencil-square text-indigo-600 dark:text-indigo-400 text-lg"></i>
+                                    {{-- Menggunakan warna indigo untuk ikon dan dark mode --}}
+                                    <input class="hidden" accept="image/*" type="file" id="logo"
+                                        name="logo" /> {{-- Menggunakan kelas hidden --}}
+                                </label>
+                            </div>
+                            <div class="mt-2">
+                                <span
+                                    class="font-semibold text-gray-600 dark:text-gray-400">{{ __('Change Logo') }}</span>
+                                {{-- Menggunakan kelas Tailwind untuk teks dan dark mode --}}
+                            </div>
+                            <x-input-error :messages="$errors->get('logo')" class="mt-2" /> {{-- Menambahkan pesan error untuk logo --}}
                         </div>
-                        <div class="mt-2">
-                            <span class="fw-bold text-secondary">Change Logo</span>
-                        </div>
-                    </div>
-                    <div class="row g-4">
-                        <div class="col-md-6">
-                            <div class="form-floating">
-                                <input type="text" class="form-control" id="store_name" name="store_name"
-                                    value="{{ isset($setting) && !old('store_name') ? $setting->store_name : old('store_name') }}"
-                                    placeholder="Enter store name" />
-                                <label for="store_name" class="fw-bold">Store Name</label>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6"> {{-- Menggunakan grid Tailwind untuk layout responsif --}}
+                            <div>
+                                <x-input-label for="store_name" :value="__('Store Name')" />
+                                <x-text-input id="store_name" name="store_name" type="text" class="mt-1 block w-full"
+                                    :value="old('store_name', $setting->store_name ?? '')" autocomplete="organization" />
+                                <x-input-error :messages="$errors->get('store_name')" class="mt-2" />
+                            </div>
+                            <div>
+                                <x-input-label for="slogan" :value="__('Slogan')" />
+                                <x-text-input id="slogan" name="slogan" type="text" class="mt-1 block w-full"
+                                    :value="old('slogan', $setting->slogan ?? '')" />
+                                <x-input-error :messages="$errors->get('slogan')" class="mt-2" />
+                            </div>
+                            <div class="md:col-span-2"> {{-- Menggunakan col-span-2 untuk lebar penuh pada medium screen ke atas --}}
+                                <x-input-label for="address" :value="__('Address')" />
+                                <x-text-input id="address" name="address" type="text" class="mt-1 block w-full"
+                                    :value="old('address', $setting->address ?? '')" autocomplete="street-address" />
+                                <x-input-error :messages="$errors->get('address')" class="mt-2" />
+                            </div>
+                            <div>
+                                <x-input-label for="email" :value="__('Email')" />
+                                <x-text-input id="email" name="email" type="email" class="mt-1 block w-full"
+                                    :value="old('email', $setting->email ?? '')" autocomplete="email" />
+                                <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                            </div>
+                            <div>
+                                <x-input-label for="phone_number" :value="__('Phone Number')" />
+                                <x-text-input id="phone_number" name="phone_number" type="text"
+                                    class="mt-1 block w-full" :value="old('phone_number', $setting->phone_number ?? '')" autocomplete="tel" />
+                                <x-input-error :messages="$errors->get('phone_number')" class="mt-2" />
+                            </div>
+                            <div>
+                                <x-input-label for="wa_number" :value="__('WhatsApp Number')" />
+                                <x-text-input id="wa_number" name="wa_number" type="text" class="mt-1 block w-full"
+                                    :value="old('wa_number', $setting->wa_number ?? '')" />
+                                <x-input-error :messages="$errors->get('wa_number')" class="mt-2" />
+                            </div>
+                            <div>
+                                <x-input-label for="link_fb" :value="__('Facebook Link')" />
+                                <x-text-input id="link_fb" name="link_fb" type="text" class="mt-1 block w-full"
+                                    :value="old('link_fb', $setting->link_fb ?? '')" />
+                                <x-input-error :messages="$errors->get('link_fb')" class="mt-2" />
+                            </div>
+                            <div>
+                                <x-input-label for="link_twitter" :value="__('Twitter Link')" />
+                                <x-text-input id="link_twitter" name="link_twitter" type="text"
+                                    class="mt-1 block w-full" :value="old('link_twitter', $setting->link_twitter ?? '')" />
+                                <x-input-error :messages="$errors->get('link_twitter')" class="mt-2" />
+                            </div>
+                            <div>
+                                <x-input-label for="link_ig" :value="__('Instagram Link')" />
+                                <x-text-input id="link_ig" name="link_ig" type="text" class="mt-1 block w-full"
+                                    :value="old('link_ig', $setting->link_ig ?? '')" />
+                                <x-input-error :messages="$errors->get('link_ig')" class="mt-2" />
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-floating">
-                                <input type="text" class="form-control" id="slogan" name="slogan"
-                                    value="{{ isset($setting) && !old('slogan') ? $setting->slogan : old('slogan') }}"
-                                    placeholder="Enter slogan" />
-                                <label for="slogan" class="fw-bold">Slogan</label>
-                            </div>
+                        <div class="flex items-center justify-end mt-6"> {{-- Menggunakan kelas Tailwind untuk posisi dan margin --}}
+                            <x-primary-button class="ms-3"> {{-- Menggunakan komponen tombol utama --}}
+                                <i class="bi bi-save mr-2"></i> {{ __('Save') }}
+                            </x-primary-button>
+
+                            @if (session('status') === 'setting-updated')
+                                {{-- Menambahkan notifikasi status simpan --}}
+                                <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
+                                    class="text-sm text-gray-600 dark:text-gray-400">{{ __('Saved.') }}</p>
+                            @endif
                         </div>
-                        <div class="col-md-12">
-                            <div class="form-floating">
-                                <input type="text" class="form-control" id="address" name="address"
-                                    value="{{ isset($setting) && !old('address') ? $setting->address : old('address') }}"
-                                    placeholder="Enter address" />
-                                <label for="address" class="fw-bold">Address</label>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-floating">
-                                <input type="email" class="form-control" id="email" name="email"
-                                    value="{{ isset($setting) && !old('email') ? $setting->email : old('email') }}"
-                                    placeholder="Enter email" />
-                                <label for="email" class="fw-bold">Email</label>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-floating">
-                                <input type="text" class="form-control" id="phone_number" name="phone_number"
-                                    value="{{ isset($setting) && !old('phone_number') ? $setting->phone_number : old('phone_number') }}"
-                                    placeholder="Enter phone number" />
-                                <label for="phone_number" class="fw-bold">Phone Number</label>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-floating">
-                                <input type="text" class="form-control" id="wa_number" name="wa_number"
-                                    value="{{ isset($setting) && !old('wa_number') ? $setting->wa_number : old('wa_number') }}"
-                                    placeholder="Enter WhatsApp number" />
-                                <label for="wa_number" class="fw-bold">WhatsApp Number</label>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-floating">
-                                <input type="text" class="form-control" id="link_fb" name="link_fb"
-                                    value="{{ isset($setting) && !old('link_fb') ? $setting->link_fb : old('link_fb') }}"
-                                    placeholder="Enter Facebook link" />
-                                <label for="link_fb" class="fw-bold">Facebook Link</label>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-floating">
-                                <input type="text" class="form-control" id="link_twitter" name="link_twitter"
-                                    value="{{ isset($setting) && !old('link_twitter') ? $setting->link_twitter : old('link_twitter') }}"
-                                    placeholder="Enter Twitter link" />
-                                <label for="link_twitter" class="fw-bold">Twitter Link</label>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-floating">
-                                <input type="text" class="form-control" id="link_ig" name="link_ig"
-                                    value="{{ isset($setting) && !old('link_ig') ? $setting->link_ig : old('link_ig') }}"
-                                    placeholder="Enter Instagram link" />
-                                <label for="link_ig" class="fw-bold">Instagram Link</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mt-4 text-end">
-                        <button type="submit" class="btn btn-primary px-5 py-2 rounded-3 shadow-sm fw-semibold">
-                            <i class="bi bi-save me-2"></i> Save
-                        </button>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
     <script>
         // Preview logo image on upload
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const inputLogo = document.getElementById('logo');
             const preview = document.getElementById('preview');
             if (inputLogo) {
-                inputLogo.addEventListener('change', function (e) {
+                inputLogo.addEventListener('change', function(e) {
                     if (e.target.files && e.target.files[0]) {
                         const reader = new FileReader();
-                        reader.onload = function (ev) {
+                        reader.onload = function(ev) {
                             preview.src = ev.target.result;
                         }
                         reader.readAsDataURL(e.target.files[0]);
