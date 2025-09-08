@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\Admin\Customer\Member\MemberController;
 use App\Http\Controllers\Admin\Customer\Store\StoreController;
+use App\Http\Controllers\Admin\AboutusController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\DoctorController;
 use App\Http\Controllers\Admin\SettingController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,7 +20,27 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 
     Route::resource('setting', SettingController::class);
 
+    // Rute untuk manajemen konten halaman dokter (DoctorPage)
+    Route::get('/doctor-page', [DoctorController::class, 'index'])->name('doctor');
+    Route::put('/doctor-page/update/{id}', [DoctorController::class, 'update'])->name('doctor.update');
+
+    // Rute untuk manajemen daftar dokter individual
+    Route::get('/doctors', [DoctorController::class, 'listDoctors'])->name('doctor.list');
+    Route::get('/doctors/create', [DoctorController::class, 'createDoctor'])->name('doctor.createDoctor');
+    Route::post('/doctors', [DoctorController::class, 'storeDoctor'])->name('doctor.storeDoctor');
+    Route::get('/doctors/{id}/edit', [DoctorController::class, 'editDoctor'])->name('doctor.editDoctor');
+    Route::put('/doctors/{id}', [DoctorController::class, 'updateDoctor'])->name('doctor.updateDoctor');
+    Route::delete('/doctors/{id}', [DoctorController::class, 'deleteDoctor'])->name('doctor.deleteDoctor');
+
+
+    Route::get('/aboutus', [AboutusController::class, 'index'])->name('aboutus');
+    Route::put('/aboutus/update/{id}', [AboutusController::class, 'update'])->name('aboutus.update');
+
+    Route::get('/headline', [DashboardController::class, 'headline'])->name('headline');
+    Route::put('/headline/update/{id}', [DashboardController::class, 'updateHeadline'])->name('headline.update');
+
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::post('/dashboard/update/{id}', [DashboardController::class, 'update'])->name('dashboard.update');
 
     Route::resource('member', MemberController::class);
     Route::resource('store', StoreController::class);

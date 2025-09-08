@@ -30,29 +30,66 @@
     </div>
 
     <ul class="flex flex-col mb-auto space-y-1">
-        @if (Auth::user() && Auth::user()->role === 'admin')
-            <li>
-                <a href="{{ route('admin.dashboard') }}"
-                    class="flex items-center py-2 px-3 rounded-md transition-colors duration-200 relative {{ request()->routeIs('admin.dashboard') ? 'bg-gray-200 dark:bg-gray-700 text-primary' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-primary' }}">
-                    <i class="bi bi-speedometer2 mr-2"></i>
-                    <span x-show="open || window.innerWidth >= 768" x-transition.opacity>Dashboard</span>
-                </a>
-            </li>
-        @else
-            <li>
-                <a href="{{ route('dashboard') }}"
-                    class="flex items-center py-2 px-3 rounded-md transition-colors duration-200 relative {{ request()->routeIs('dashboard') ? 'bg-gray-200 dark:bg-gray-700 text-primary' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-primary' }}">
-                    <i class="bi bi-speedometer2 mr-2"></i>
-                    <span x-show="open || window.innerWidth >= 768" x-transition.opacity>Dashboard</span>
-                </a>
-            </li>
-        @endif
+        <li>
+            <a href="{{ route('admin.dashboard') }}"
+                class="flex items-center py-2 px-3 rounded-md transition-colors duration-200 relative {{ request()->routeIs('admin.dashboard') ? 'bg-gray-200 dark:bg-gray-700 text-primary' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-primary' }}">
+                <i class="bi bi-speedometer2 mr-2"></i>
+                <span x-show="open || window.innerWidth >= 768" x-transition.opacity>Dashboard</span>
+            </a>
+        </li>
         <li>
             <a href="{{ route('profile.edit') }}"
                 class="flex items-center py-2 px-3 rounded-md transition-colors duration-200 relative {{ request()->routeIs('profile.edit') ? 'bg-gray-200 dark:bg-gray-700 text-primary' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-primary' }}">
                 <i class="bi bi-person mr-2"></i>
                 <span x-show="open || window.innerWidth >= 768" x-transition.opacity>Profile</span>
             </a>
+        </li>
+        <li>
+            <a href="{{ route('admin.headline') }}"
+                class="flex items-center py-2 px-3 rounded-md transition-colors duration-200 relative {{ request()->routeIs('admin.headline') ? 'bg-gray-200 dark:bg-gray-700 text-primary' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-primary' }}">
+                <i class="bi bi-newspaper mr-2"></i>
+                <span x-show="open || window.innerWidth >= 768" x-transition.opacity>Headline</span>
+            </a>
+        </li>
+        <li>
+            <a href="{{ route('admin.aboutus') }}"
+                class="flex items-center py-2 px-3 rounded-md transition-colors duration-200 relative {{ request()->routeIs('admin.aboutus') ? 'bg-gray-200 dark:bg-gray-700 text-primary' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-primary' }}">
+                <i class="bi bi-info-circle mr-2"></i>
+                <span x-show="open || window.innerWidth >= 768" x-transition.opacity>About Us</span>
+            </a>
+        </li>
+        <li x-data="{ submenuOpen: {{ request()->routeIs('admin.doctor.*') ? 'true' : 'false' }} }">
+            <a @click="submenuOpen = !submenuOpen"
+                class="flex items-center py-2 px-3 rounded-md cursor-pointer transition-colors duration-200 relative
+                      {{ request()->routeIs('admin.doctor.*') ? 'bg-gray-200 dark:bg-gray-700 text-primary' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-primary' }}">
+                <i class="bi bi-person-plus mr-2"></i> {{-- Icon untuk Dokter --}}
+                <span x-show="open || window.innerWidth >= 768" x-transition.opacity class="nav-text">Dokter</span>
+                <i class="bi bi-chevron-down ml-auto transition-transform duration-200"
+                    :class="{ 'rotate-180': submenuOpen }"></i>
+            </a>
+            <ul x-show="submenuOpen" x-transition:enter="transition ease-out duration-200"
+                x-transition:enter-start="opacity-0 transform scale-y-0"
+                x-transition:enter-end="opacity-100 transform scale-y-100"
+                x-transition:leave="transition ease-in duration-200"
+                x-transition:leave-start="opacity-100 transform scale-y-100"
+                x-transition:leave-end="opacity-0 transform scale-y-0" class="pl-4 mt-1 space-y-1 list-none origin-top">
+                <li>
+                    <a class="block py-2 px-3 rounded-md text-sm transition-colors duration-200 relative
+                              {{ request()->routeIs('admin.doctor') ? 'bg-gray-200 dark:bg-gray-700 text-primary' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-primary' }}"
+                        href="{{ route('admin.doctor') }}">
+                        <span x-show="open || window.innerWidth >= 768" x-transition.opacity class="nav-text">Halaman
+                            Dokter</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="block py-2 px-3 rounded-md text-sm transition-colors duration-200 relative
+                              {{ request()->routeIs('admin.doctor.list') || request()->routeIs('admin.doctor.createDoctor') || request()->routeIs('admin.doctor.editDoctor') ? 'bg-gray-200 dark:bg-gray-700 text-primary' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-primary' }}"
+                        href="{{ route('admin.doctor.list') }}">
+                        <span x-show="open || window.innerWidth >= 768" x-transition.opacity class="nav-text">Daftar
+                            Dokter</span>
+                    </a>
+                </li>
+            </ul>
         </li>
         <li x-data="{ submenuOpen: {{ request()->routeIs('admin.member.index') || request()->routeIs('admin.store.index') ? 'true' : 'false' }} }">
             <a @click="submenuOpen = !submenuOpen"
