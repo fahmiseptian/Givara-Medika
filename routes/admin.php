@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\Customer\Store\StoreController;
 use App\Http\Controllers\Admin\AboutusController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DoctorController;
+use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\SettingController;
 use Illuminate\Support\Facades\Route;
 
@@ -31,6 +32,18 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::get('/doctors/{id}/edit', [DoctorController::class, 'editDoctor'])->name('doctor.editDoctor');
     Route::put('/doctors/{id}', [DoctorController::class, 'updateDoctor'])->name('doctor.updateDoctor');
     Route::delete('/doctors/{id}', [DoctorController::class, 'deleteDoctor'])->name('doctor.deleteDoctor');
+
+    // Rute untuk manajemen layanan (Service)
+    Route::get('/services', [ServiceController::class, 'index'])->name('service.index');
+    Route::get('/services/create', [ServiceController::class, 'create'])->name('service.create');
+    Route::post('/services', [ServiceController::class, 'store'])->name('service.store');
+    Route::get('/services/{id}/edit', [ServiceController::class, 'edit'])->name('service.edit');
+    Route::put('/services/{id}', [ServiceController::class, 'update'])->name('service.update');
+    Route::delete('/services/{id}', [ServiceController::class, 'destroy'])->name('service.destroy');
+
+    // Rute untuk halaman konten utama layanan (Service Page)
+    Route::get('/service-page', [ServiceController::class, 'page'])->name('service.page');
+    Route::put('/service-page/update/{id}', [ServiceController::class, 'updatePage'])->name('service.updatePage');
 
 
     Route::get('/aboutus', [AboutusController::class, 'index'])->name('aboutus');

@@ -1,5 +1,5 @@
 @php
-    $setting = setting();
+$setting = setting();
 @endphp
 
 <!DOCTYPE html>
@@ -10,6 +10,20 @@
 
 <head>
     @include('layouts.partials.css')
+
+    <style>
+        /* Hilangkan scrollbar tapi tetap bisa discroll */
+        .scrollbox {
+            content-visibility: auto;
+            height: 600px;
+            overflow: auto;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none;  /* IE and Edge */
+        }
+        .scrollbox::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+        }
+    </style>
 </head>
 
 <body class="font-sans antialiased bg-white">
@@ -17,63 +31,90 @@
     @include('frontend.components.dashboard')
     @include('frontend.components.headline')
     @include('frontend.components.aboutus')
+    @include('frontend.components.doctor')
+    @include('frontend.components.service')
+
+
+
 
     @php
-        use App\Models\Doctor;
-        use App\Models\DoctorPage;
-        $doctorPage = DoctorPage::first();
-        $doctors = Doctor::latest()->take(3)->get();
+    // === contoh data (ganti dengan data dari DB) ===
+    $reviews = collect(range(1,10))->map(fn($i)=>[
+    'name' => "Reviewer’s Name",
+    'avatar' => 'http://127.0.0.1:8080/storage/14/d1.jpg',
+    'rating' => 5,
+    'text' => 'Lorem ipsum dolor sit amet consectetur. Mattis quis integer egestas neque amet massa et parturient.',
+    ]);
+
+    // bagi jadi 2 kolom agar offset mudah diatur
+    $colA = $reviews->values()->filter(fn($v,$k)=>$k % 2 === 0);
+    $colB = $reviews->values()->filter(fn($v,$k)=>$k % 2 === 1);
     @endphp
 
-    <section class="bg-blue-900 py-24 px-6 md:px-12">
-            <div class="container mx-auto">
-            <div class="flex justify-between items-center mb-8">
-                <span class="text-white uppercase text-sm tracking-wide">Our Doctors</span>
-                {{-- Asumsi ada route 'frontend.doctors.index' untuk melihat semua dokter. Jika tidak ada, tautan akan mengarah ke '#' --}}
-                <a href="#" class="flex items-center text-white hover:underline">
-                    See more <i class="bi bi-arrow-right ml-2"></i>
-                </a>
-            </div>
+    <section class="bg-red-600 py-16">
+        <div class="mx-auto max-w-7xl px-4 pt-6" style="height: 674px;">
+            <div class="grid gap-10 lg:grid-cols-12 items-start">
+                <div class="lg:col-span-7">
+                    <div class="relative h-[620px] overflow-y-auto pr-3">
+                        <div class="grid grid-cols-2 gap-6">
+                            <div class="h-[300px] md:h-[420px] overflow-y-auto pr-2">
+                                <div class="flex gap-4">
+                                    {{-- Kolom Kiri --}}
+                                    <div class="flex w-1/2 flex-col gap-4 h-[300px] overflow-y-scroll scrollbox">
+                                        @foreach($colA as $rev)
+                                        <article class="w-full rounded-xl bg-white p-3 shadow-sm flex flex-col items-center">
+                                            <h4 class="font-semibold text-slate-800 text-sm text-center">{{ $rev['name'] }}</h4>
+                                            <img class="h-10 w-10 rounded-full object-cover mt-2" src="{{ $rev['avatar'] }}" alt="{{ $rev['name'] }}">
+                                            <div class="mt-2 flex gap-1 text-yellow-400 justify-center">
+                                                @for($i=0;$i<$rev['rating'];$i++) <i class="bi bi-star-fill"></i> @endfor
+                                                    @for($i=$rev['rating'];$i<5;$i++) <i class="bi bi-star"></i> @endfor
+                                            </div>
+                                            <p class="mt-2 text-xs leading-relaxed text-slate-600 text-center">{{ $rev['text'] }}</p>
+                                        </article>
+                                        @endforeach
+                                    </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 items-start">
-                <!-- Kolom kiri (headline + text dari DoctorPage) -->
-                <div class="flex flex-col justify-center">
-                    {{-- Mengambil headline dari objek $doctorPage. Jika tidak ada, gunakan teks default. --}}
-                    <h2 class="text-4xl md:text-5xl font-bold text-white mb-6 leading-snug">
-                        {{ $doctorPage->headline ?? 'Your Headline or Tagline Here' }}
-                    </h2>
-                    {{-- Mengambil deskripsi dari objek $doctorPage. Jika tidak ada, gunakan teks default. --}}
-                    <p class="text-gray-300 mb-20">
-                        {{ $doctorPage->description ?? 'Lorem ipsum dolor sit amet consectetur. Mattis quis integer egestas neque amet massa et parturient.' }}
-                    </p>
-                    <a href="#contact"
-                        class="inline-block bg-white text-blue-900 px-4 py-3 rounded-full font-medium hover:bg-gray-100 transition w-50 mt-auto text-center">
-                        Contact Us
-                    </a>
-                </div>
+                                    {{-- Kolom Kanan --}}
+                                    <div class="flex w-1/2 flex-col gap-4 h-[300px] overflow-y-scroll scrollbox md:mt-6">
+                                        @foreach($colB as $rev)
+                                        <article class="w-full rounded-xl bg-white p-3 shadow-sm flex flex-col items-center">
+                                            <h4 class="font-semibold text-slate-800 text-sm text-center">{{ $rev['name'] }}</h4>
+                                            <img class="h-10 w-10 rounded-full object-cover mt-2" src="{{ $rev['avatar'] }}" alt="{{ $rev['name'] }}">
+                                            <div class="mt-2 flex gap-1 text-yellow-400 justify-center">
+                                                @for($i=0;$i<$rev['rating'];$i++) <i class="bi bi-star-fill"></i> @endfor
+                                                    @for($i=$rev['rating'];$i<5;$i++) <i class="bi bi-star"></i> @endfor
+                                            </div>
+                                            <p class="mt-2 text-xs leading-relaxed text-slate-600 text-center">{{ $rev['text'] }}</p>
+                                        </article>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
 
-                {{-- Loop untuk menampilkan dokter dari koleksi $doctors --}}
-                @forelse ($doctors as $doctor)
-                    <div class="relative bg-white rounded-xl shadow overflow-hidden w-full h-96 bg-cover bg-center transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
-                        style="background-image: url('{{ $doctor->getFirstMediaUrl('doctor_images') ?: asset('images/default-doctor.png') }}');">
-                        <div
-                            class="absolute bottom-0 left-0 right-0 h-2/5 bg-gradient-to-t from-white via-white/70 to-transparent p-4 flex flex-col justify-end">
-                            {{-- Menampilkan nama dokter --}}
-                            <h3 class="text-lg font-semibold text-red-600">{{ $doctor->name }}</h3>
-                            {{-- Menampilkan deskripsi dokter, dibatasi hingga 50 karakter --}}
-                            <p class="text-gray-600 text-sm mt-1">{{ Str::limit($doctor->content, 50) }}</p>
+
+                            <div class="flex flex-col gap-10 justify-center items-start" style="margin-left: 120px; min-height: 500px;">
+                                {{-- RIGHT TITLE AREA --}}
+                                <div class="lg:col-span-5 text-white">
+                                    <p class="text-lg font-bold tracking-widest uppercase opacity-90">Customer Reviews</p>
+                                    <h2 class="mt-5 text-6xl font-extrabold leading-tight drop-shadow-lg">
+                                        Your Headline<br class="hidden md:block"> or Tagline Here
+                                    </h2>
+                                    <p class="mt-6 text-xl text-white/90 max-w-xl">
+                                        We truly value every review from our customers. Here are some of their testimonials about our service.
+                                    </p>
+
+                                    <a href="#contact"
+                                        class=" inline-flex rounded-full bg-white px-8 py-4 text-lg font-bold text-sky-700 hover:bg-slate-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white shadow-lg transition-all duration-200" style="margin-top: 20px; color: black;">
+                                        Contact Us
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                @empty
-                    {{-- Pesan jika tidak ada dokter yang tersedia --}}
-                    <div class="col-span-full text-center text-gray-300">
-                        Tidak ada dokter yang tersedia saat ini.
-                    </div>
-                @endforelse
+                </div>
             </div>
         </div>
     </section>
-
 
 
     @include('layouts.partials.js')

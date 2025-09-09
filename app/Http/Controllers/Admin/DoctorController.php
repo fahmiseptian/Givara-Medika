@@ -115,15 +115,14 @@ class DoctorController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'specialty' => 'required|string|max:255',
             'description' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validasi untuk gambar
         ]);
 
+
         $doctor = Doctor::findOrFail($id);
         $doctor->name = $request->name;
-        $doctor->specialty = $request->specialty;
-        $doctor->description = $request->description;
+        $doctor->content = $request->description;
         $doctor->save();
 
         // Handle update gambar jika ada

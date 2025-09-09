@@ -91,6 +91,37 @@
                 </li>
             </ul>
         </li>
+        <li x-data="{ submenuOpen: {{ request()->routeIs('admin.service.*') || request()->routeIs('admin.service.index') || request()->routeIs('admin.service.page') ? 'true' : 'false' }} }">
+            <a @click="submenuOpen = !submenuOpen"
+                class="flex items-center py-2 px-3 rounded-md cursor-pointer transition-colors duration-200 relative
+                      {{ request()->routeIs('admin.service.*') || request()->routeIs('admin.service.index') || request()->routeIs('admin.service.page') ? 'bg-gray-200 dark:bg-gray-700 text-primary' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-primary' }}">
+                <i class="bi bi-briefcase mr-2"></i> {{-- Icon untuk Pelayanan --}}
+                <span x-show="open || window.innerWidth >= 768" x-transition.opacity class="nav-text">Service</span>
+                <i class="bi bi-chevron-down ml-auto transition-transform duration-200"
+                    :class="{ 'rotate-180': submenuOpen }"></i>
+            </a>
+            <ul x-show="submenuOpen" x-transition:enter="transition ease-out duration-200"
+                x-transition:enter-start="opacity-0 transform scale-y-0"
+                x-transition:enter-end="opacity-100 transform scale-y-100"
+                x-transition:leave="transition ease-in duration-200"
+                x-transition:leave-start="opacity-100 transform scale-y-100"
+                x-transition:leave-end="opacity-0 transform scale-y-0" class="pl-4 mt-1 space-y-1 list-none origin-top">
+                <li>
+                    <a class="block py-2 px-3 rounded-md text-sm transition-colors duration-200 relative
+                              {{ request()->routeIs('admin.service.page') ? 'bg-gray-200 dark:bg-gray-700 text-primary' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-primary' }}"
+                        href="{{ route('admin.service.page') }}">
+                        <span x-show="open || window.innerWidth >= 768" x-transition.opacity class="nav-text">Service Page</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="block py-2 px-3 rounded-md text-sm transition-colors duration-200 relative
+                              {{ request()->routeIs('admin.service.index') || request()->routeIs('admin.service.create') || request()->routeIs('admin.service.edit') ? 'bg-gray-200 dark:bg-gray-700 text-primary' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-primary' }}"
+                        href="{{ route('admin.service.index') }}">
+                        <span x-show="open || window.innerWidth >= 768" x-transition.opacity class="nav-text">Service List</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
         <li x-data="{ submenuOpen: {{ request()->routeIs('admin.member.index') || request()->routeIs('admin.store.index') ? 'true' : 'false' }} }">
             <a @click="submenuOpen = !submenuOpen"
                 class="flex items-center py-2 px-3 rounded-md cursor-pointer transition-colors duration-200 relative
