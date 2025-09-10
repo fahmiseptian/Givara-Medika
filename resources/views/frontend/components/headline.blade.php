@@ -1,24 +1,35 @@
 @php
-    use App\Models\Headline;
-    $headlines = Headline::take(3)->get();
+use App\Models\Headline;
+$headlines = Headline::query()->latest()->take(3)->get();
 @endphp
+
 <section class="container mx-auto py-12 border-b">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         @foreach ($headlines as $headline)
-            <div class="flex items-start space-x-4">
-                <!-- Icon -->
-                <div
-                    class="flex-shrink-0 w-16 h-16 rounded-full bg-gray-200 flex items-center justify-center text-blue-600 text-2xl">
-                    <i class="{{ $headline->icon }}"></i>
+        <article class="group h-full rounded-xl bg-white p-5 shadow-sm transition
+                            hover:-translate-y-0.5 hover:shadow-md">
+            <div class="flex items-start gap-4">
+                {{-- Icon bulat --}}
+                <div class="flex-shrink-0">
+                    <div class="grid h-16 w-16 place-items-center rounded-full
+                                    bg-gradient-to-br from-blue-50 to-blue-100
+                                    ring-1 ring-blue-200">
+                        <i class="{{ $headline->icon ?: 'bi bi-bullseye' }}
+                                      text-2xl text-blue-700" aria-hidden="true"></i>
+                    </div>
                 </div>
-                <!-- Text -->
-                <div>
-                    <h3 class="text-2xl font-semibold text-blue-900">{{ $headline->title }}</h3>
-                    <p class="text-lg text-gray-600">
+
+                {{-- Judul + isi --}}
+                <div class="min-w-0">
+                    <h3 class="text-lg font-semibold text-blue-900 leading-snug">
+                        {{ $headline->title }}
+                    </h3>
+                    <p class="mt-2 text-sm text-slate-600">
                         {{ $headline->content }}
                     </p>
                 </div>
             </div>
+        </article>
         @endforeach
     </div>
 </section>

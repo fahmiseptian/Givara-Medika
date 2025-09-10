@@ -1,55 +1,67 @@
 @php
 use App\Models\Doctor;
 use App\Models\DoctorPage;
+
 $doctorPage = DoctorPage::first();
 $doctors = Doctor::latest()->take(3)->get();
 @endphp
 
-<section class="bg-blue-900 py-24 px-6 md:px-12">
-    <div class="container mx-auto">
-        <div class="flex justify-between items-center mb-8">
-            <span class="text-white uppercase text-sm tracking-wide">Our Doctors</span>
-            {{-- Asumsi ada route 'frontend.doctors.index' untuk melihat semua dokter. Jika tidak ada, tautan akan mengarah ke '#' --}}
-            <a href="#" class="flex items-center text-white hover:underline">
-                See more <i class="bi bi-arrow-right ml-2"></i>
+<section class="bg-[#071752] py-16">
+    <div class="container mx-auto max-w-7xl px-6 lg:px-10">
+        <div class="relative">
+            {{-- See more (kanan atas) --}}
+            <a href="{{ Route::has('frontend.doctors.index') ? route('frontend.doctors.index') : '#'}}"
+                class="absolute right-0 -top-2 hidden lg:flex items-center gap-2 text-white/90 hover:text-white">
+                <span class="text-sm">See more</span>
+                <span class="inline-grid place-items-center h-7 w-7 rounded-full border border-white/40">
+                    <i class="bi bi-arrow-right"></i>
+                </span>
             </a>
-        </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 items-start">
-            <!-- Kolom kiri (headline + text dari DoctorPage) -->
-            <div class="flex flex-col justify-center">
-                {{-- Mengambil headline dari objek $doctorPage. Jika tidak ada, gunakan teks default. --}}
-                <h2 class="text-4xl md:text-5xl font-bold text-white mb-6 leading-snug">
-                    {{ $doctorPage->headline ?? 'Your Headline or Tagline Here' }}
-                </h2>
-                {{-- Mengambil deskripsi dari objek $doctorPage. Jika tidak ada, gunakan teks default. --}}
-                <p class="text-gray-300 mb-20">
-                    {{ $doctorPage->description ?? 'Lorem ipsum dolor sit amet consectetur. Mattis quis integer egestas neque amet massa et parturient.' }}
-                </p>
-                <a href="#contact"
-                    class="inline-block bg-white text-blue-900 px-4 py-3 rounded-full font-medium hover:bg-gray-100 transition w-50 mt-auto text-center">
-                    Contact Us
-                </a>
-            </div>
+            <div class="grid grid-cols-12 gap-6 items-start">
+                {{-- Kiri: judul & deskripsi --}}
+                <div class="col-span-12 lg:col-span-4">
+                    <p class="uppercase tracking-widest text-[11px] text-white/70 mb-3">Our Doctors</p>
+                    <h2 class="text-white font-extrabold leading-tight text-3xl xl:text-4xl 2xl:text-[34px] mb-4">
+                        {{ $doctorPage->headline ?? 'Your Headline or Tagline Here' }}
+                    </h2>
+                    <p class="text-white/80 text-sm md:text-base max-w-md">
+                        {{ $doctorPage->description ?? 'Lorem ipsum dolor sit amet consectetur. Mattis quis integer egestas neque amet massa et parturient.' }}
+                    </p>
 
-            {{-- Loop untuk menampilkan dokter dari koleksi $doctors --}}
-            @forelse ($doctors as $doctor)
-            <div class="relative bg-white rounded-xl shadow overflow-hidden w-full h-96 bg-cover bg-center transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
-                style="background-image: url('{{ $doctor->getFirstMediaUrl('doctor_images') ?: asset('images/default-doctor.png') }}');">
-                <div
-                    class="absolute bottom-0 left-0 right-0 h-2/5 bg-gradient-to-t from-white via-white/70 to-transparent p-4 flex flex-col justify-end">
-                    {{-- Menampilkan nama dokter --}}
-                    <h3 class="text-lg font-semibold text-red-600">{{ $doctor->name }}</h3>
-                    {{-- Menampilkan deskripsi dokter, dibatasi hingga 50 karakter --}}
-                    <p class="text-gray-600 text-sm mt-1">{{ Str::limit($doctor->content, 50) }}</p>
+                    <a href="#contact"
+                        class="mt-8 inline-flex items-center rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-[#071752] hover:bg-gray-100">
+                        Contact Us
+                    </a>
+                </div>
+
+                {{-- Kanan: 3 kartu dokter --}}
+                <div class="col-span-12 lg:col-span-8">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        @forelse($doctors as $doctor)
+                        @php
+                        $photo = $doctor->getFirstMediaUrl('doctor_images') ?: asset('images/default-doctor.png');
+                        @endphp
+                        <article class="relative overflow-hidden rounded-xl bg-white shadow-sm">
+                            <img src="{{ $photo }}" alt="{{ $doctor->name }}" class="h-80 w-full object-cover">
+                            {{-- Gradient putih di bawah (seperti gambar) --}}
+                            <div class="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-white via-white/80 to-transparent"></div>
+
+                            <div class="absolute inset-x-0 bottom-0 px-4 pb-4">
+                                <h3 class="text-[15px] font-semibold text-red-600"> {{ $doctor->name }} </h3>
+                                <p class="mt-1 text-xs text-slate-600">
+                                    {{ \Illuminate\Support\Str::limit($doctor->content, 70) }}
+                                </p>
+                            </div>
+                        </article>
+                        @empty
+                        <div class="col-span-full text-center text-white/80">
+                            Tidak ada dokter yang tersedia saat ini.
+                        </div>
+                        @endforelse
+                    </div>
                 </div>
             </div>
-            @empty
-            {{-- Pesan jika tidak ada dokter yang tersedia --}}
-            <div class="col-span-full text-center text-gray-300">
-                Tidak ada dokter yang tersedia saat ini.
-            </div>
-            @endforelse
         </div>
     </div>
 </section>

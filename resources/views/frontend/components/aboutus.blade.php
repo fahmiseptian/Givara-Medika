@@ -1,6 +1,6 @@
 @php
-    use App\Models\aboutus;
-    $aboutus = aboutus::findOrFail(1); // Mengambil data About Us dengan ID 1
+use App\Models\aboutus;
+$aboutus = aboutus::findOrFail(1); // Mengambil data About Us dengan ID 1
 @endphp
 <section class="container mx-auto py-16 px-6 md:px-12">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
@@ -27,55 +27,44 @@
 
 
         <!-- Kolom Kanan (Konten) -->
-        <div>
-            <p class="uppercase text-lg font-semibold text-gray-500 mb-2">About Us</p>
-            <h2 class="text-6xl md:text-5xl font-bold text-red-700 mb-4">
+        <div class="max-w-3xl">
+            <!-- Subheading -->
+            <p class="uppercase tracking-widest text-sm font-semibold text-gray-500 mb-3">
+                About Us
+            </p>
+
+            <!-- Title -->
+            <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-red-700 leading-tight mb-4">
                 {{ $aboutus->title }}
             </h2>
-            <p class="text-gray-600 text-xl mb-6">
+
+            <!-- Content -->
+            <p class="text-gray-600 text-base sm:text-lg md:text-xl mb-8 leading-relaxed">
                 {{ $aboutus->content }}
             </p>
 
-            <!-- List Icon -->
+            <!-- Feature List -->
             <ul class="space-y-5">
-                @if ($aboutus->text1)
-                    <li class="flex items-start space-x-4">
-                        <div
-                            class="w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-full bg-blue-900 text-white text-xl">
-                            <i class="{{ $aboutus->icon1 }}"></i>
-                        </div>
-                        <p class="text-gray-700 text-lg">{{ $aboutus->text1 }}</p>
-                    </li>
+                @foreach (range(1, 4) as $i)
+                @php
+                $text = $aboutus->{'text'.$i} ?? null;
+                $icon = $aboutus->{'icon'.$i} ?? null;
+                @endphp
+                @if ($text)
+                <li class="flex items-start gap-4">
+                    <div
+                        class="flex-shrink-0 w-12 h-12 flex items-center justify-center rounded-full
+                               bg-gradient-to-br from-blue-800 to-blue-600
+                               text-white shadow-md">
+                        <i class="{{ $icon ?? 'bi bi-check-lg' }} text-xl"></i>
+                    </div>
+                    <p class="text-gray-800 text-base sm:text-lg font-medium leading-snug">
+                        {{ $text }}
+                    </p>
+                </li>
                 @endif
-                @if ($aboutus->text2)
-                    <li class="flex items-start space-x-4">
-                        <div
-                            class="w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-full bg-blue-900 text-white text-xl">
-                            <i class="{{ $aboutus->icon2 }}"></i>
-                        </div>
-                        <p class="text-gray-700 text-lg">{{ $aboutus->text2 }}</p>
-                    </li>
-                @endif
-                @if ($aboutus->text3)
-                    <li class="flex items-start space-x-4">
-                        <div
-                            class="w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-full bg-blue-900 text-white text-xl">
-                            <i class="{{ $aboutus->icon3 }}"></i>
-                        </div>
-                        <p class="text-gray-700 text-lg">{{ $aboutus->text3 }}</p>
-                    </li>
-                @endif
-                @if ($aboutus->text4)
-                    <li class="flex items-start space-x-4">
-                        <div
-                            class="w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-full bg-blue-900 text-white text-xl">
-                            <i class="{{ $aboutus->icon4 }}"></i>
-                        </div>
-                        <p class="text-gray-700 text-lg">{{ $aboutus->text4 }}</p>
-                    </li>
-                @endif
+                @endforeach
             </ul>
         </div>
-
     </div>
 </section>
