@@ -18,6 +18,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('frontend.home');
 });
+Route::get('/about', function () {
+    return view('frontend.aboutus');
+});
+Route::get('/doctors', function () {
+    return view('frontend.doctors');
+});
 
 Route::get('/dashboard', function () {
     return view('dashboard');
