@@ -24,6 +24,15 @@ Route::get('/about', function () {
 Route::get('/doctors', function () {
     return view('frontend.doctors');
 });
+Route::get('/services', function () {
+    return view('frontend.service');
+});
+Route::get('/reviews', function () {
+    return view('frontend.review');
+});
+Route::get('/contact', function () {
+    return view('frontend.contactus');
+});
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -38,21 +47,27 @@ Route::middleware('auth')->group(function () {
 require __DIR__ . '/auth.php';
 require __DIR__ . '/admin.php';
 
+Route::get('/route-list', function () {
+    Artisan::call('route:list');
+    return "<pre>" . Artisan::output() . "</pre>";
+})->name('route.list');
+
+
 Route::get('/clear-cache', function () {
     Artisan::call('cache:clear');
     Artisan::call('config:clear');
-    Artisan::call('view:clear');
     Artisan::call('route:clear');
-    return 'Cache, Konfigurasi, View, dan Route berhasil dibersihkan!';
-})->name('clear.cache');
+    Artisan::call('view:clear');
+    return "Cache, config, route, and view cleared!";
+});
 
 Route::get('/optimize', function () {
+    Artisan::call('optimize:clear');
     Artisan::call('optimize');
-    return 'Aplikasi berhasil dioptimalkan!';
-})->name('optimize');
-
+    return "Application optimized!";
+});
 
 Route::get('/storage-link', function () {
     Artisan::call('storage:link');
-    return 'Storage link berhasil dibuat atau diperbarui!';
-})->name('storage.link');
+    return "Storage linked!";
+});

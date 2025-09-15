@@ -1,22 +1,23 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl leading-tight text-gray-800 dark:text-gray-200">
-            <i class="bi bi-briefcase mr-2"></i> {{-- Icon for service page --}}
-            {{ __('Service Page') }}
+            <i class="bi bi-star-fill mr-2"></i> {{-- Icon untuk halaman review --}}
+            {{ __('Review Page') }}
         </h2>
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8"> {{-- Adjust width and padding for consistency --}}
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg"> {{-- Dark mode support --}}
                 <div class="p-6">
-                    {{-- Service page update feature starts here --}}
+                    {{-- Review page update feature starts here --}}
                     <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">
-                        {{ __('Edit Service Page Content') }}
+                        {{ __('Edit Review Page Content') }}
                     </h3>
 
-                    {{-- Assume $servicePage is an instance of ServicePage model to be edited --}}
-                    <form action="{{ route('admin.service.updatePage', $servicePage->id) }}" method="POST">
+                    {{-- Assume $reviewPage is an instance of ReviewPage model to be edited. --}}
+                    {{-- Make sure $reviewPage is passed from the controller to this view. --}}
+                    <form action="{{ route('admin.review.page.update', 1) }}" method="POST">
                         @csrf
                         @method('PUT')
 
@@ -26,7 +27,7 @@
                             </label>
                             <input type="text" name="title" id="title"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
-                                value="{{ old('title', $servicePage->title) }}" required>
+                                value="{{ old('title', $reviewPage->title) }}" required>
                             @error('title')
                             <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
                             @enderror
@@ -37,12 +38,11 @@
                                 {{ __('Content') }}
                             </label>
                             <textarea name="content" id="content" rows="5"
-                                class="summernote mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">{{ old('content', $servicePage->content) }}</textarea>
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">{{ old('content', $reviewPage->content) }}</textarea>
                             @error('content')
                             <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
                             @enderror
                         </div>
-
 
                         <div class="flex items-center justify-end mt-4">
                             <button type="submit"
@@ -51,10 +51,9 @@
                             </button>
                         </div>
                     </form>
-                    {{-- End of service page update feature --}}
+                    {{-- End of review page update feature --}}
                 </div>
             </div>
         </div>
     </div>
-    
 </x-app-layout>

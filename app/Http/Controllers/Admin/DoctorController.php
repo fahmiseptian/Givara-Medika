@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Doctor;
+use App\Models\DoctorContent;
 use App\Models\DoctorPage;
 use Illuminate\Http\Request;
 
@@ -41,6 +42,44 @@ class DoctorController extends Controller
         $doctorPage->save();
 
         return redirect()->route('admin.doctor')->with('success', 'Konten halaman dokter berhasil diperbarui.');
+    }
+    public function content()
+    {
+        // Mengambil data halaman dokter, diasumsikan hanya ada satu entri
+        $doctorPage = DoctorContent::first();
+        if (!$doctorPage) {
+            // Jika belum ada, buat default
+            $doctorPage = DoctorContent::create([
+                'title' => 'Judul Halaman Dokter',
+                'description' => 'Deskripsi halaman dokter di sini.',
+                'content' => 'Konten halaman dokter di sini.',
+            ]);
+        }
+        return view('admin.doctor.content', compact('doctorPage'));
+    }
+
+    /**
+     * Memperbarui konten halaman dokter.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function contentUpdate(Request $request, $id)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'content' => 'nullable|string',
+        ]);
+
+        $doctorPage = DoctorContent::findOrFail($id);
+        $doctorPage->title = $request->title;
+        $doctorPage->description = $request->description;
+        $doctorPage->content = $request->content;
+        $doctorPage->save();
+
+        return redirect()->route('admin.doctor.content')->with('success', 'Konten halaman dokter berhasil diperbarui.');
     }
 
     /**

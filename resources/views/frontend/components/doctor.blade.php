@@ -44,8 +44,9 @@
                                     $doctor->getFirstMediaUrl('doctor_images') ?: asset('images/default-doctor.png');
                             @endphp
                             <article class="relative overflow-hidden rounded-xl bg-white shadow-sm">
+                                {{-- Tambahkan tinggi gambar di sini --}}
                                 <img src="{{ $photo }}" alt="{{ $doctor->name }}"
-                                    class="h-80 w-full object-cover">
+                                    class="h-[380px] w-full object-cover">
                                 {{-- Gradient putih di bawah (seperti gambar) --}}
                                 <div
                                     class="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-white via-white/80 to-transparent">

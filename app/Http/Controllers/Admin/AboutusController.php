@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\AboutusPage;
 use Illuminate\Http\Request;
 use App\Models\aboutus; // Menggunakan model 'aboutus' sesuai dengan nama file dan konteks
 use Illuminate\Support\Facades\Redirect;
@@ -19,7 +20,7 @@ class AboutusController extends Controller
         // Mengambil record About Us pertama. Jika tidak ada, buat record baru dengan nilai default.
         $aboutus = aboutus::findOrFail(1);
 
-        return view('admin.aboutus', compact('aboutus'));
+        return view('admin.aboutus.index', compact('aboutus'));
     }
 
     /**
@@ -79,5 +80,44 @@ class AboutusController extends Controller
         }
 
         return Redirect::route('admin.aboutus')->with('success', 'Konten About Us berhasil diperbarui.');
+    }
+
+    public function page()
+    {
+        // Asumsi hanya ada satu halaman aboutusPage, bisa diambil dengan id tetap atau first()
+        $aboutusPage = AboutusPage::first();
+        if (!$aboutusPage) {
+            // Jika belum ada, buat default
+            $aboutusPage = AboutusPage::create([
+                'title' => 'Judul Halaman About Us',
+                'content' => 'Konten halaman About Us di sini.',
+            ]);
+        }
+        return view('admin.aboutus.detail', compact('aboutusPage'));
+    }
+
+    /**
+     * Update konten halaman aboutusPage.
+     */
+    public function updatePage(Request $request, $id)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'nullable|string',
+            'banner' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        $aboutusPage = AboutusPage::findOrFail($id);
+        $aboutusPage->title = $request->title;
+        $aboutusPage->content = $request->content;
+        $aboutusPage->save();
+
+        // Simpan gambar banner jika ada upload, menggunakan Spatie Media Library
+        if ($request->hasFile('banner')) {
+            $aboutusPage->clearMediaCollection('banner');
+            $aboutusPage->addMediaFromRequest('banner')->toMediaCollection('banner');
+        }
+
+        return redirect()->route('admin.aboutus.page')->with('success', 'Konten halaman About Us berhasil diperbarui.');
     }
 }

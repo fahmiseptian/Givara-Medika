@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Service;
+use App\Models\ServiceContent;
 use App\Models\ServicePage;
 use Illuminate\Http\Request;
 
@@ -113,5 +114,44 @@ class ServiceController extends Controller
         $servicePage->save();
 
         return redirect()->route('admin.service.page')->with('success', 'Konten halaman service berhasil diperbarui.');
+    }
+
+    public function content()
+    {
+        // Asumsi hanya ada satu halaman aboutusPage, bisa diambil dengan id tetap atau first()
+        $serviceContent = ServiceContent::first();
+        if (!$serviceContent) {
+            // Jika belum ada, buat default
+            $serviceContent = ServiceContent::create([
+                'title' => 'Judul Halaman About Us',
+                'content' => 'Konten halaman About Us di sini.',
+            ]);
+        }
+        return view('admin.service.detail', compact('serviceContent'));
+    }
+
+    /**
+     * Update konten halaman aboutusPage.
+     */
+    public function updateContent(Request $request, $id)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'nullable|string',
+            'banner' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        $serviceContent = ServiceContent::findOrFail($id);
+        $serviceContent->title = $request->title;
+        $serviceContent->content = $request->content;
+        $serviceContent->save();
+
+        // Simpan gambar banner jika ada upload, menggunakan Spatie Media Library
+        if ($request->hasFile('banner')) {
+            $serviceContent->clearMediaCollection('banner');
+            $serviceContent->addMediaFromRequest('banner')->toMediaCollection('banner');
+        }
+
+        return redirect()->route('admin.service.content')->with('success', 'Konten halaman About Us berhasil diperbarui.');
     }
 }

@@ -15,8 +15,8 @@
                         {{ __('Edit Service Page Content') }}
                     </h3>
 
-                    {{-- Assume $servicePage is an instance of ServicePage model to be edited --}}
-                    <form action="{{ route('admin.service.updatePage', $servicePage->id) }}" method="POST">
+                    {{-- Assume $serviceContent is an instance of serviceContent model to be edited --}}
+                    <form action="{{ route('admin.service.updateContent', $serviceContent->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
 
@@ -26,7 +26,7 @@
                             </label>
                             <input type="text" name="title" id="title"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
-                                value="{{ old('title', $servicePage->title) }}" required>
+                                value="{{ old('title', $serviceContent->title) }}" required>
                             @error('title')
                             <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
                             @enderror
@@ -37,12 +37,27 @@
                                 {{ __('Content') }}
                             </label>
                             <textarea name="content" id="content" rows="5"
-                                class="summernote mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">{{ old('content', $servicePage->content) }}</textarea>
+                                class="summernote mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">{{ old('content', $serviceContent->content) }}</textarea>
                             @error('content')
                             <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
                             @enderror
                         </div>
 
+                        <div class="mb-4">
+                            <label for="banner" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                Upload Image
+                            </label>
+                            <input type="file" name="banner" id="banner"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+                            @if(isset($serviceContent->banner_url))
+                            <div class="mt-2">
+                                <img src="{{ $serviceContent->banner_url }}" alt="Banner Saat Ini" class="h-24 rounded">
+                            </div>
+                            @endif
+                            @error('banner')
+                            <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
 
                         <div class="flex items-center justify-end mt-4">
                             <button type="submit"
@@ -56,5 +71,5 @@
             </div>
         </div>
     </div>
-    
+    </script>
 </x-app-layout>
