@@ -16,14 +16,16 @@
     }
 </style>
 @php
-// contoh data (ganti dg data DB kamu)
-$reviews = collect(range(1,20))->map(fn($i)=>[
-'name' => "Reviewer’s Name",
-'avatar' => 'http://127.0.0.1:8080/storage/14/d1.jpg',
-'rating' => 5,
-'text' => 'Lorem ipsum dolor sit amet consectetur. Mattis quis integer egestas neque amet massa et parturient.',
-]);
+use App\Models\Review;
+use App\Models\ReviewPage;
 
+// Ambil data reviewPage (judul & deskripsi)
+$reviewPage = \App\Models\ReviewPage::first();
+
+// Ambil data review dari database
+$reviews = \App\Models\Review::latest()->get();
+
+// Bagi review menjadi dua kolom
 $colA = $reviews->values()->filter(fn($v,$k)=>$k % 2 === 0);
 $colB = $reviews->values()->filter(fn($v,$k)=>$k % 2 === 1);
 @endphp
@@ -39,17 +41,17 @@ $colB = $reviews->values()->filter(fn($v,$k)=>$k % 2 === 1);
                         @foreach($colA as $rev)
                         <article class="rounded-xl bg-white p-4 shadow transition">
                             <div class="flex items-center gap-3">
-                                <img class="h-10 w-10 rounded-full object-cover" src="{{ $rev['avatar'] }}" alt="{{ $rev['name'] }}">
+                                <img class="h-10 w-10 rounded-full object-cover" src="{{ $rev->avatar ?? asset('images/default-user.png') }}" alt="{{ $rev->name }}">
                                 <div class="min-w-0">
-                                    <h4 class="font-semibold text-slate-800 text-sm leading-tight">{{ $rev['name'] }}</h4>
+                                    <h4 class="font-semibold text-slate-800 text-sm leading-tight">{{ $rev->name }}</h4>
                                     <div class="mt-1 text-yellow-400 text-sm">
-                                        @for($i=0;$i<$rev['rating'];$i++) <i class="bi bi-star-fill"></i> @endfor
-                                            @for($i=$rev['rating'];$i<5;$i++) <i class="bi bi-star"></i> @endfor
+                                        @for($i=0;$i<$rev->star;$i++) <i class="bi bi-star-fill"></i> @endfor
+                                        @for($i=$rev->star;$i<5;$i++) <i class="bi bi-star"></i> @endfor
                                     </div>
                                 </div>
                             </div>
                             <p class="mt-3 text-xs leading-relaxed text-slate-600">
-                                {{ $rev['text'] }}
+                                {{ $rev->content }}
                             </p>
                         </article>
                         @endforeach
@@ -60,17 +62,17 @@ $colB = $reviews->values()->filter(fn($v,$k)=>$k % 2 === 1);
                         @foreach($colB as $rev)
                         <article class="rounded-xl bg-white p-4 shadow transition">
                             <div class="flex items-center gap-3">
-                                <img class="h-10 w-10 rounded-full object-cover" src="{{ $rev['avatar'] }}" alt="{{ $rev['name'] }}">
+                                <img class="h-10 w-10 rounded-full object-cover" src="{{ $rev->avatar ?? asset('images/default-user.png') }}" alt="{{ $rev->name }}">
                                 <div class="min-w-0">
-                                    <h4 class="font-semibold text-slate-800 text-sm leading-tight">{{ $rev['name'] }}</h4>
+                                    <h4 class="font-semibold text-slate-800 text-sm leading-tight">{{ $rev->name }}</h4>
                                     <div class="mt-1 text-yellow-400 text-sm">
-                                        @for($i=0;$i<$rev['rating'];$i++) <i class="bi bi-star-fill"></i> @endfor
-                                            @for($i=$rev['rating'];$i<5;$i++) <i class="bi bi-star"></i> @endfor
+                                        @for($i=0;$i<$rev->star;$i++) <i class="bi bi-star-fill"></i> @endfor
+                                        @for($i=$rev->star;$i<5;$i++) <i class="bi bi-star"></i> @endfor
                                     </div>
                                 </div>
                             </div>
                             <p class="mt-3 text-xs leading-relaxed text-slate-600">
-                                {{ $rev['text'] }}
+                                {{ $rev->content }}
                             </p>
                         </article>
                         @endforeach
@@ -80,16 +82,18 @@ $colB = $reviews->values()->filter(fn($v,$k)=>$k % 2 === 1);
 
             {{-- KANAN: judul + deskripsi + tombol --}}
             <div class="lg:col-span-5 text-white lg:pl-8">
-                <p class="text-[11px] font-semibold tracking-widest uppercase opacity-90">Customer Review</p>
+                <p class="text-[11px] font-semibold tracking-widest uppercase opacity-90">
+                    {{ $reviewPage?->title ?? 'Customer Review' }}
+                </p>
                 <h2 class="mt-4 text-4xl xl:text-5xl font-extrabold leading-tight">
-                    Your Headline<br class="hidden lg:block"> or Tagline Here
+                    {{ $reviewPage?->title ?? 'Judul Review' }}
                 </h2>
                 <p class="mt-5 text-base/7 opacity-95 max-w-xl">
-                    Lorem ipsum dolor sit amet consectetur. Mattis quis integer egestas neque amet massa et parturient.
+                    {{ $reviewPage?->content ?? 'Belum ada deskripsi review.' }}
                 </p>
                 <a href="#contact"
                     class="mt-6 inline-flex items-center rounded-full bg-white px-6 py-2.5 text-sm font-semibold text-red-700 hover:bg-slate-100">
-                    Contact Us
+                    Hubungi Kami
                 </a>
             </div>
         </div>

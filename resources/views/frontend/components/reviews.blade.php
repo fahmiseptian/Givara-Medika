@@ -1,6 +1,12 @@
 @php
+use App\Models\Review;
+use App\Models\ReviewPage;
 /** @var \App\Models\Dashboard $dashboard */
 $dashboard = \App\Models\Dashboard::findOrFail(1);
+// Ambil data reviewPage (judul & deskripsi)
+$reviewPage = \App\Models\ReviewPage::first();
+// Ambil data review dari database
+$reviews = \App\Models\Review::latest()->get();
 @endphp
 
 <section
@@ -26,14 +32,13 @@ $dashboard = \App\Models\Dashboard::findOrFail(1);
         {{-- Bagian Heading --}}
         <div class="max-w-xl mb-10">
             <p class="uppercase text-xs tracking-widest font-semibold text-blue-900/70 mb-3">
-                Review
+                {{ $reviewPage?->title ?? 'Customer Review' }}
             </p>
             <h2 class="text-3xl md:text-5xl font-extrabold text-blue-900 mb-4">
-                Your Headline
+                {{ $reviewPage?->title ?? 'Judul Review' }}
             </h2>
             <p class="text-blue-900/90 text-base md:text-lg">
-                Lorem ipsum dolor sit amet consectetur. Dignissim molestie mi arcu in fermentum in nulla non.
-                Turpis consequat eleifend est mat
+                {{ $reviewPage?->content ?? 'Belum ada deskripsi review.' }}
             </p>
         </div>
 
@@ -41,31 +46,52 @@ $dashboard = \App\Models\Dashboard::findOrFail(1);
         <div class="swiper reviewSwiper">
             <div class="swiper-wrapper">
                 {{-- Card Review --}}
-                @for($i=1; $i<=6; $i++)
-                    <div class="swiper-slide">
+                @forelse($reviews as $rev)
+                <div class="swiper-slide h-full flex items-stretch">
+                    <div class="bg-white rounded-xl shadow-md p-6 text-center mx-2 flex flex-col items-center w-full h-full min-h-[320px] max-h-[320px] min-w-[340px] max-w-[340px]">
+                        <img src="{{ $rev->avatar ?? asset('images/default-user.png') }}"
+                            alt="{{ $rev->name }}"
+                            class="w-16 h-16 rounded-full mx-auto mb-4 object-cover flex-shrink-0">
+                        <h5 class="font-semibold text-blue-900">{{ $rev->name }}</h5>
+                        <div class="flex justify-center text-yellow-400 my-2">
+                            @for($star=0; $star<$rev->star; $star++)
+                                <i class="bi bi-star-fill"></i>
+                            @endfor
+                            @for($star=$rev->star; $star<5; $star++)
+                                <i class="bi bi-star"></i>
+                            @endfor
+                        </div>
+                        <p class="text-sm text-slate-600 flex-1 overflow-auto">
+                            {{ $rev->content }}
+                        </p>
+                    </div>
+                </div>
+                @empty
+                <div class="swiper-slide">
                     <div class="bg-white rounded-xl shadow-md p-6 text-center mx-2">
-                        <img src="{{ asset('images/user'.$i.'.jpg') }}"
+                        <img src="{{ asset('images/default-user.png') }}"
                             alt="Reviewer"
                             class="w-16 h-16 rounded-full mx-auto mb-4 object-cover">
-                        <h5 class="font-semibold text-blue-900">Reviewer’s Name</h5>
+                        <h5 class="font-semibold text-blue-900">Belum ada review</h5>
                         <div class="flex justify-center text-yellow-400 my-2">
                             @for($star=0; $star<5; $star++)
-                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star"></i>
                                 @endfor
                         </div>
                         <p class="text-sm text-slate-600">
-                            Lorem ipsum dolor sit amet consectetur. Mattis quis integer egestas neque amet massa et parturient.
+                            Jadilah yang pertama memberikan review untuk kami.
                         </p>
                     </div>
+                </div>
+                @endforelse
             </div>
-            @endfor
-        </div>
 
-        <!-- {{-- Navigasi --}}
-        <div class="flex justify-between mt-6">
-            <div class="swiper-button-prev text-blue-900"></div>
-            <div class="swiper-button-next text-blue-900"></div>
-        </div> -->
+            {{-- Navigasi --}}
+            <!-- <div class="flex justify-between mt-6">
+                <div class="swiper-button-prev text-blue-900"></div>
+                <div class="swiper-button-next text-blue-900"></div>
+            </div> -->
+        </div>
     </div>
 </section>
 

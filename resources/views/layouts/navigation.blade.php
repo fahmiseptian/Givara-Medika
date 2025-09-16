@@ -99,8 +99,8 @@
                 x-transition:leave-end="opacity-0 transform scale-y-0" class="pl-4 mt-1 space-y-1 list-none origin-top">
                 <li>
                     <a class="block py-2 px-3 rounded-md text-sm transition-colors duration-200 relative
-                              {{ request()->routeIs('admin.review.index') ? 'bg-gray-200 dark:bg-gray-700 text-primary' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-primary' }}"
-                        href="{{ route('admin.review.index') }}">
+                              {{ request()->routeIs('admin.review') ? 'bg-gray-200 dark:bg-gray-700 text-primary' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-primary' }}"
+                        href="{{ route('admin.review') }}">
                         <span x-show="open || window.innerWidth >= 768" x-transition.opacity class="nav-text">Review List</span>
                     </a>
                 </li>
