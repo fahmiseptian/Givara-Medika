@@ -28,7 +28,7 @@ return [
             </div>
             <div class="col-span-12 lg:col-span-6 lg:pl-6">
                 <p class="text-sm lg:text-base leading-relaxed text-slate-700">
-                    {{ $servicePage->content ?? 'Lorem ipsum dolor sit amet consectetur, quis integer egestas neque amet massa et parturient. Lorem ipsum dolor sit amet consectetur. Mattis quis integer egestas.' }}
+                    {!! $servicePage->content ?? 'Lorem ipsum dolor sit amet consectetur, quis integer egestas neque amet massa et parturient. Lorem ipsum dolor sit amet consectetur. Mattis quis integer egestas.' !!}
                 </p>
             </div>
         </div>
