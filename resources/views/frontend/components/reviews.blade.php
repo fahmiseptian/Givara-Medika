@@ -48,7 +48,7 @@ $reviews = \App\Models\Review::latest()->get();
                 {{-- Card Review --}}
                 @forelse($reviews as $rev)
                 <div class="swiper-slide h-full flex items-stretch">
-                    <div class="bg-white rounded-xl shadow-md p-6 text-center mx-2 flex flex-col items-center w-full h-full min-h-[320px] max-h-[320px] min-w-[340px] max-w-[340px]">
+                    <div class="bg-white rounded-xl shadow-md p-6 text-center mx-2 flex flex-col items-center w-full h-full min-h-[270px] max-h-[270px] min-w-[300px] max-w-[300px]">
                         <img src="{{ $rev->profile_url ?? asset('images/default-user.png') }}"
                             alt="{{ $rev->name }}"
                             class="w-16 h-16 rounded-full mx-auto mb-4 object-cover flex-shrink-0">

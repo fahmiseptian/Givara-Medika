@@ -1,12 +1,11 @@
 <!-- Sidebar -->
-<nav class="fixed top-0 left-0 h-screen bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 p-3 shadow-sm dark:shadow-lg transition-all duration-200 ease-in-out z-[1031]
-           md:relative md:z-30"
+<nav class="fixed top-0 left-0 h-screen bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 p-3 shadow-sm dark:shadow-lg transition-all duration-200 ease-in-out z-[1031] overflow-y-auto"
     :class="{
         // Mobile state (default for small screens)
         'w-[220px] min-w-[220px] max-w-[80vw]': true, // Base mobile width
         '-translate-x-full': !open && window.innerWidth < 768, // Mobile closed
         'translate-x-0': open && window.innerWidth < 768, // Mobile open
-    
+
         // Desktop state (default for large screens)
         'md:w-[250px] md:min-w-[250px] md:max-w-[250px]': open && window.innerWidth >= 768, // Desktop open
         'md:w-[70px] md:min-w-[70px] md:max-w-[70px]': !open && window.innerWidth >= 768 // Desktop collapsed
@@ -21,10 +20,10 @@
             </span>
         </a>
 
-        <!-- Tombol tutup (mobile) -->
+        <!-- Close button (mobile) -->
         <button @click="open = false"
             class="bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md px-2 py-1 text-sm border border-gray-300 dark:border-gray-600 ml-2 md:hidden"
-            type="button" aria-label="Tutup sidebar">
+            type="button" aria-label="Close sidebar">
             <i class="bi bi-x-lg"></i>
         </button>
     </div>
@@ -37,13 +36,7 @@
                 <span x-show="open || window.innerWidth >= 768" x-transition.opacity>Dashboard</span>
             </a>
         </li>
-        <li>
-            <a href="{{ route('profile.edit') }}"
-                class="flex items-center py-2 px-3 rounded-md transition-colors duration-200 relative {{ request()->routeIs('profile.edit') ? 'bg-gray-200 dark:bg-gray-700 text-primary' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-primary' }}">
-                <i class="bi bi-person mr-2"></i>
-                <span x-show="open || window.innerWidth >= 768" x-transition.opacity>Profile</span>
-            </a>
-        </li>
+
         <li>
             <a href="{{ route('admin.headline') }}"
                 class="flex items-center py-2 px-3 rounded-md transition-colors duration-200 relative {{ request()->routeIs('admin.headline') ? 'bg-gray-200 dark:bg-gray-700 text-primary' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-primary' }}">
@@ -55,7 +48,7 @@
             <a @click="submenuOpen = !submenuOpen"
                 class="flex items-center py-2 px-3 rounded-md cursor-pointer transition-colors duration-200 relative
                       {{ request()->routeIs('admin.aboutus') || request()->routeIs('admin.aboutus.page') ? 'bg-gray-200 dark:bg-gray-700 text-primary' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-primary' }}">
-                <i class="bi bi-info-circle mr-2"></i> {{-- Icon for About Us --}}
+                <i class="bi bi-info-circle mr-2"></i>
                 <span x-show="open || window.innerWidth >= 768" x-transition.opacity class="nav-text">About Us</span>
                 <i class="bi bi-chevron-down ml-auto transition-transform duration-200"
                     :class="{ 'rotate-180': submenuOpen }"></i>
@@ -86,7 +79,7 @@
             <a @click="submenuOpen = !submenuOpen"
                 class="flex items-center py-2 px-3 rounded-md cursor-pointer transition-colors duration-200 relative
                       {{ request()->routeIs('admin.review.*') ? 'bg-gray-200 dark:bg-gray-700 text-primary' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-primary' }}">
-                <i class="bi bi-star-fill mr-2"></i> {{-- Icon for Review --}}
+                <i class="bi bi-star-fill mr-2"></i>
                 <span x-show="open || window.innerWidth >= 768" x-transition.opacity class="nav-text">Review</span>
                 <i class="bi bi-chevron-down ml-auto transition-transform duration-200"
                     :class="{ 'rotate-180': submenuOpen }"></i>
@@ -117,8 +110,8 @@
             <a @click="submenuOpen = !submenuOpen"
                 class="flex items-center py-2 px-3 rounded-md cursor-pointer transition-colors duration-200 relative
                       {{ request()->routeIs('admin.doctor.*') ? 'bg-gray-200 dark:bg-gray-700 text-primary' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-primary' }}">
-                <i class="bi bi-person-plus mr-2"></i> {{-- Icon untuk Dokter --}}
-                <span x-show="open || window.innerWidth >= 768" x-transition.opacity class="nav-text">Dokter</span>
+                <i class="bi bi-person-plus mr-2"></i>
+                <span x-show="open || window.innerWidth >= 768" x-transition.opacity class="nav-text">Doctor</span>
                 <i class="bi bi-chevron-down ml-auto transition-transform duration-200"
                     :class="{ 'rotate-180': submenuOpen }"></i>
             </a>
@@ -132,24 +125,21 @@
                     <a class="block py-2 px-3 rounded-md text-sm transition-colors duration-200 relative
                               {{ request()->routeIs('admin.doctor') ? 'bg-gray-200 dark:bg-gray-700 text-primary' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-primary' }}"
                         href="{{ route('admin.doctor') }}">
-                        <span x-show="open || window.innerWidth >= 768" x-transition.opacity class="nav-text">Halaman
-                            Dokter</span>
+                        <span x-show="open || window.innerWidth >= 768" x-transition.opacity class="nav-text">Doctor Page</span>
                     </a>
                 </li>
                 <li>
                     <a class="block py-2 px-3 rounded-md text-sm transition-colors duration-200 relative
                               {{ request()->routeIs('admin.doctor.content') ? 'bg-gray-200 dark:bg-gray-700 text-primary' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-primary' }}"
                         href="{{ route('admin.doctor.content') }}">
-                        <span x-show="open || window.innerWidth >= 768" x-transition.opacity class="nav-text">Content
-                            Dokter</span>
+                        <span x-show="open || window.innerWidth >= 768" x-transition.opacity class="nav-text">Doctor Content</span>
                     </a>
                 </li>
                 <li>
                     <a class="block py-2 px-3 rounded-md text-sm transition-colors duration-200 relative
                               {{ request()->routeIs('admin.doctor.list') || request()->routeIs('admin.doctor.createDoctor') || request()->routeIs('admin.doctor.editDoctor') ? 'bg-gray-200 dark:bg-gray-700 text-primary' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-primary' }}"
                         href="{{ route('admin.doctor.list') }}">
-                        <span x-show="open || window.innerWidth >= 768" x-transition.opacity class="nav-text">Daftar
-                            Dokter</span>
+                        <span x-show="open || window.innerWidth >= 768" x-transition.opacity class="nav-text">Doctor List</span>
                     </a>
                 </li>
             </ul>
@@ -158,7 +148,7 @@
             <a @click="submenuOpen = !submenuOpen"
                 class="flex items-center py-2 px-3 rounded-md cursor-pointer transition-colors duration-200 relative
                       {{ request()->routeIs('admin.service.*') || request()->routeIs('admin.service.index') || request()->routeIs('admin.service.page') ? 'bg-gray-200 dark:bg-gray-700 text-primary' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-primary' }}">
-                <i class="bi bi-briefcase mr-2"></i> {{-- Icon untuk Pelayanan --}}
+                <i class="bi bi-briefcase mr-2"></i>
                 <span x-show="open || window.innerWidth >= 768" x-transition.opacity class="nav-text">Service</span>
                 <i class="bi bi-chevron-down ml-auto transition-transform duration-200"
                     :class="{ 'rotate-180': submenuOpen }"></i>
@@ -211,27 +201,31 @@
                     <a class="block py-2 px-3 rounded-md text-sm transition-colors duration-200 relative
                               {{ request()->routeIs('admin.setting.index') ? 'bg-gray-200 dark:bg-gray-700 text-primary' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-primary' }}"
                         href="{{ route('admin.setting.index') }}">
-                        <span x-show="open || window.innerWidth >= 768" x-transition.opacity class="nav-text">Site
-                            Settings</span>
+                        <span x-show="open || window.innerWidth >= 768" x-transition.opacity class="nav-text">Site Settings</span>
                     </a>
                 </li>
                 <li>
                     <a class="block py-2 px-3 rounded-md text-sm transition-colors duration-200 relative
                               {{ request()->routeIs('admin.setting.privacy_policy') ? 'bg-gray-200 dark:bg-gray-700 text-primary' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-primary' }}"
                         href="{{ route('admin.setting.privacy_policy') }}">
-                        <span x-show="open || window.innerWidth >= 768" x-transition.opacity class="nav-text">Privacy
-                            Policy</span>
+                        <span x-show="open || window.innerWidth >= 768" x-transition.opacity class="nav-text">Privacy Policy</span>
                     </a>
                 </li>
                 <li>
                     <a class="block py-2 px-3 rounded-md text-sm transition-colors duration-200 relative
                               {{ request()->routeIs('admin.setting.term_and_condition') ? 'bg-gray-200 dark:bg-gray-700 text-primary' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-primary' }}"
                         href="{{ route('admin.setting.term_and_condition') }}">
-                        <span x-show="open || window.innerWidth >= 768" x-transition.opacity class="nav-text">Terms &
-                            Conditions</span>
+                        <span x-show="open || window.innerWidth >= 768" x-transition.opacity class="nav-text">Terms & Conditions</span>
                     </a>
                 </li>
             </ul>
+        </li>
+        <li>
+            <a href="{{ route('profile.edit') }}"
+                class="flex items-center py-2 px-3 rounded-md transition-colors duration-200 relative {{ request()->routeIs('profile.edit') ? 'bg-gray-200 dark:bg-gray-700 text-primary' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-primary' }}">
+                <i class="bi bi-person mr-2"></i>
+                <span x-show="open || window.innerWidth >= 768" x-transition.opacity>Profile</span>
+            </a>
         </li>
     </ul>
 
@@ -253,7 +247,7 @@
         </form>
     </div>
 </nav>
-<!-- Script untuk menutup sidebar saat resize ke desktop -->
+<!-- Script to close sidebar when resizing to desktop -->
 <script>
     document.addEventListener('alpine:init', () => {
         Alpine.effect(() => {
