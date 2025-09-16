@@ -1,7 +1,7 @@
 @php
     // Ambil data dari model AboutusPage
     use App\Models\AboutusPage;
-    $aboutus = AboutusPage::first();
+    $aboutus = \App\Models\AboutusPage::first();
 @endphp
 
 @if($aboutus)

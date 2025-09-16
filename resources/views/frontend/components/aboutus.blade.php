@@ -1,6 +1,6 @@
 @php
 use App\Models\aboutus;
-$aboutus = aboutus::findOrFail(1); // Mengambil data About Us dengan ID 1
+$aboutus = App\Models\aboutus::findOrFail(1); // Mengambil data About Us dengan ID 1
 @endphp
 <section class="container mx-auto py-16 px-6 md:px-12">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
