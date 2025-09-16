@@ -75,5 +75,5 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 
     // Rute untuk tambah dan hapus review
     Route::post('/review', [ReviewController::class, 'store'])->name('review.store');
-    Route::delete('/review/{id}', [ReviewController::class, 'destroy'])->name('review.destroy');
+    Route::get('/review/{id}', [ReviewController::class, 'destroy'])->name('review.destroy');
 });

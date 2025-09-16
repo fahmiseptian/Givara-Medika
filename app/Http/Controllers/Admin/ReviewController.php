@@ -54,9 +54,16 @@ class ReviewController extends Controller
             'name' => 'required|string|max:255',
             'star' => 'required|integer|min:1|max:5',
             'content' => 'nullable|string',
+            'profile_url' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        Review::create($request->only('name', 'star', 'content'));
+        // Simpan data review tanpa gambar dulu
+        $review = Review::create($request->only('name', 'star', 'content'));
+
+        // Jika ada file profile_url, upload dengan spatie
+        if ($request->hasFile('profile_url')) {
+            $review->addMediaFromRequest('profile_url')->toMediaCollection('profile');
+        }
 
         return redirect()->back()->with('success', 'Review berhasil ditambahkan.');
     }

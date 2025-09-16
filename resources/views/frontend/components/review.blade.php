@@ -41,7 +41,7 @@ $colB = $reviews->values()->filter(fn($v,$k)=>$k % 2 === 1);
                         @foreach($colA as $rev)
                         <article class="rounded-xl bg-white p-4 shadow transition">
                             <div class="flex items-center gap-3">
-                                <img class="h-10 w-10 rounded-full object-cover" src="{{ $rev->avatar ?? asset('images/default-user.png') }}" alt="{{ $rev->name }}">
+                                <img class="h-10 w-10 rounded-full object-cover" src="{{ $rev->profile_url ?? asset('images/default-user.png') }}" alt="{{ $rev->name }}">
                                 <div class="min-w-0">
                                     <h4 class="font-semibold text-slate-800 text-sm leading-tight">{{ $rev->name }}</h4>
                                     <div class="mt-1 text-yellow-400 text-sm">
@@ -62,7 +62,7 @@ $colB = $reviews->values()->filter(fn($v,$k)=>$k % 2 === 1);
                         @foreach($colB as $rev)
                         <article class="rounded-xl bg-white p-4 shadow transition">
                             <div class="flex items-center gap-3">
-                                <img class="h-10 w-10 rounded-full object-cover" src="{{ $rev->avatar ?? asset('images/default-user.png') }}" alt="{{ $rev->name }}">
+                                <img class="h-10 w-10 rounded-full object-cover" src="{{ $rev->profile_url ?? asset('images/default-user.png') }}" alt="{{ $rev->name }}">
                                 <div class="min-w-0">
                                     <h4 class="font-semibold text-slate-800 text-sm leading-tight">{{ $rev->name }}</h4>
                                     <div class="mt-1 text-yellow-400 text-sm">
