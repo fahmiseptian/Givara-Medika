@@ -108,18 +108,39 @@
 
 
     $(document).ready(function() {
+
+    });
+</script>
+<script>
+    function applySummernoteTheme() {
+        if ($('body').hasClass('dark')) {
+            $('.note-editable').attr('style', 'background-color:#1f2937 !important; color:#d1d5db !important;');
+            $('.note-toolbar, .note-statusbar, .note-editor').attr('style', 'background-color:#111827 !important; border-color:#374151 !important;');
+        } else {
+            $('.note-editable').attr('style', 'background-color:#fff !important; color:#111 !important;');
+            $('.note-toolbar, .note-statusbar, .note-editor').attr('style', 'background-color:#f8fafc !important; border-color:#e5e7eb !important;');
+        }
+    }
+
+    $(document).ready(function() {
         $('.summernote').summernote({
             height: 250,
             toolbar: [
                 ['style', ['style']],
                 ['font', ['bold', 'italic', 'underline', 'clear']],
                 ['fontname', ['fontname']],
-                ['color', ['color']],
                 ['para', ['ul', 'ol', 'paragraph']],
                 ['table', ['table']],
                 ['insert', ['link', 'picture', 'video']],
                 ['view', ['fullscreen', 'codeview', 'help']]
             ]
+        });
+        applySummernoteTheme();
+
+        const observer = new MutationObserver(applySummernoteTheme);
+        observer.observe(document.body, {
+            attributes: true,
+            attributeFilter: ['class']
         });
     });
 </script>

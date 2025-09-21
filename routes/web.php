@@ -1,8 +1,12 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
+use Spatie\Sitemap\Sitemap;
+use Spatie\Sitemap\Tags\Url;
+use App\Models\SeoMeta;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,6 +37,7 @@ Route::get('/reviews', function () {
 Route::get('/contact', function () {
     return view('frontend.contactus');
 });
+Route::post('/contact', [UserController::class, 'submitContactForm'])->name('contact.form');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -70,4 +75,20 @@ Route::get('/optimize', function () {
 Route::get('/storage-link', function () {
     Artisan::call('storage:link');
     return "Storage linked!";
+});
+
+Route::get('/generate-sitemap', function () {
+    $sitemap = Sitemap::create();
+    $pages = SeoMeta::all();
+
+    foreach ($pages as $page) {
+        $sitemap->add(
+            Url::create(url($page->page === 'home' ? '/' : $page->page))
+                ->setLastModificationDate(now())
+                ->setChangeFrequency(Url::CHANGE_FREQUENCY_ALWAYS)
+                ->setPriority(0.8)
+        );
+    }
+    $sitemap->writeToFile(public_path('sitemap.xml'));
+    return "✅ Sitemap berhasil dibuat: " . url('sitemap.xml');
 });

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Package;
+use App\Models\SeoMeta;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -82,5 +83,44 @@ class SettingController extends Controller
         $setting->save();
 
         return redirect()->route('admin.setting.term_and_condition')->with('ok', 'Term and condition has been updated successfully');
+    }
+    public function seo(Request $request)
+    {
+        // Ambil semua data SEO Meta
+        $seoMetas = SeoMeta::all();
+        return view('admin.setting.seo', compact('seoMetas'));
+    }
+
+    public function seo_update(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'meta_title' => 'nullable|string|max:255',
+            'meta_description' => 'nullable|string|max:1000',
+            'meta_keywords' => 'nullable|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,svg,gif|max:2048',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator->errors())->withInput();
+        }
+
+        $seoMeta = SeoMeta::findOrFail($id);
+        $seoMeta->meta_title = $request->meta_title;
+        $seoMeta->meta_description = $request->meta_description;
+        $seoMeta->meta_keywords = $request->meta_keywords;
+
+        // Handle upload gambar menggunakan Spatie Media Library dan simpan di meta_image
+        if ($request->hasFile('image')) {
+            // Hapus media lama jika ada
+            if ($seoMeta->getFirstMedia('meta_image')) {
+                $seoMeta->clearMediaCollection('meta_image');
+            }
+            $media = $seoMeta->addMediaFromRequest('image')->toMediaCollection('meta_image');
+            $seoMeta->meta_image = $media->getUrl();
+        }
+
+        $seoMeta->save();
+
+        return redirect()->route('admin.setting.seo')->with('ok', 'SEO meta has been successfully updated');
     }
 }

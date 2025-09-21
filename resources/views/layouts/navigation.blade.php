@@ -75,6 +75,37 @@
                 </li>
             </ul>
         </li>
+        <li x-data="{ submenuOpen: {{ request()->routeIs('admin.contactus.*') ? 'true' : 'false' }} }">
+            <a @click="submenuOpen = !submenuOpen"
+                class="flex items-center py-2 px-3 rounded-md cursor-pointer transition-colors duration-200 relative
+                      {{ request()->routeIs('admin.contactus.*') ? 'bg-gray-200 dark:bg-gray-700 text-primary' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-primary' }}">
+                <i class="bi bi-envelope-fill mr-2"></i>
+                <span x-show="open || window.innerWidth >= 768" x-transition.opacity class="nav-text">Contact Us</span>
+                <i class="bi bi-chevron-down ml-auto transition-transform duration-200"
+                    :class="{ 'rotate-180': submenuOpen }"></i>
+            </a>
+            <ul x-show="submenuOpen" x-transition:enter="transition ease-out duration-200"
+                x-transition:enter-start="opacity-0 transform scale-y-0"
+                x-transition:enter-end="opacity-100 transform scale-y-100"
+                x-transition:leave="transition ease-in duration-200"
+                x-transition:leave-start="opacity-100 transform scale-y-100"
+                x-transition:leave-end="opacity-0 transform scale-y-0" class="pl-4 mt-1 space-y-1 list-none origin-top">
+                <li>
+                    <a class="block py-2 px-3 rounded-md text-sm transition-colors duration-200 relative
+                              {{ request()->routeIs('admin.contactus.index') ? 'bg-gray-200 dark:bg-gray-700 text-primary' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-primary' }}"
+                        href="{{ route('admin.contactus.index') }}">
+                        <span x-show="open || window.innerWidth >= 768" x-transition.opacity class="nav-text">Contact Us Content</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="block py-2 px-3 rounded-md text-sm transition-colors duration-200 relative
+                              {{ request()->routeIs('admin.contactus.form') ? 'bg-gray-200 dark:bg-gray-700 text-primary' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-primary' }}"
+                        href="{{ route('admin.contactus.form') }}">
+                        <span x-show="open || window.innerWidth >= 768" x-transition.opacity class="nav-text">Contact Us Form Results</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
         <li x-data="{ submenuOpen: {{ request()->routeIs('admin.review.*') ? 'true' : 'false' }} }">
             <a @click="submenuOpen = !submenuOpen"
                 class="flex items-center py-2 px-3 rounded-md cursor-pointer transition-colors duration-200 relative
@@ -202,6 +233,20 @@
                               {{ request()->routeIs('admin.setting.index') ? 'bg-gray-200 dark:bg-gray-700 text-primary' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-primary' }}"
                         href="{{ route('admin.setting.index') }}">
                         <span x-show="open || window.innerWidth >= 768" x-transition.opacity class="nav-text">Site Settings</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="block py-2 px-3 rounded-md text-sm transition-colors duration-200 relative
+                              {{ request()->routeIs('admin.setting.sitemap') ? 'bg-gray-200 dark:bg-gray-700 text-primary' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-primary' }}"
+                        href="{{ route('admin.setting.sitemap') }}">
+                        <span x-show="open || window.innerWidth >= 768" x-transition.opacity class="nav-text">Sitemap Website</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="block py-2 px-3 rounded-md text-sm transition-colors duration-200 relative
+                              {{ request()->routeIs('admin.setting.seo') ? 'bg-gray-200 dark:bg-gray-700 text-primary' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-primary' }}"
+                        href="{{ route('admin.setting.seo') }}">
+                        <span x-show="open || window.innerWidth >= 768" x-transition.opacity class="nav-text">SEO</span>
                     </a>
                 </li>
                 <li>

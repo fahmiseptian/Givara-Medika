@@ -1,6 +1,7 @@
 @php
 /** @var \App\Models\Dashboard $dashboard */
 $dashboard = \App\Models\Dashboard::findOrFail(1);
+$contactus = \App\Models\contactus::findOrFail(1);
 @endphp
 
 <section
@@ -29,11 +30,10 @@ $dashboard = \App\Models\Dashboard::findOrFail(1);
                 Contact
             </p>
             <h2 class="text-3xl md:text-5xl font-extrabold text-blue-900 mb-4">
-                Your Headline
+                {{ $contactus->title }}
             </h2>
             <p class="text-blue-900/90 text-base md:text-lg">
-                Lorem ipsum dolor sit amet consectetur. Dignissim molestie mi arcu in fermentum in nulla non.
-                Turpis consequat eleifend est mat
+                {{ $contactus->content }}
             </p>
         </div>
     </div>

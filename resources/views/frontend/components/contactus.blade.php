@@ -1,3 +1,9 @@
+@php
+$setting = setting();
+$contactus = \App\Models\contactus::findOrFail(2);
+$getintouch = \App\Models\contactus::findOrFail(3);
+@endphp
+
 <section class="container mx-auto md:px-12">
     <div class="min-h-screen bg-white pt-6">
         <div class="mx-auto max-w-6xl px-6 py-6">
@@ -6,26 +12,25 @@
                 <div class="max-w-xl">
                     <p class="text-xs uppercase tracking-widest text-slate-500 mb-3">Contact Us</p>
                     <h1 class="text-4xl font-extrabold leading-tight text-slate-900">
-                        Your Headline<br> or Tagline Here
+                        {{ $contactus->title }}
                     </h1>
                     <p class="mt-4 text-base leading-relaxed text-slate-600">
-                        Lorem ipsum dolor sit amet consectetur. Mattis quis integer egestas neque amet massa et parturient.
+                        {{ $contactus->content }}
                     </p>
 
                     <div class="mt-8 space-y-6 text-sm">
                         <div>
                             <p class="font-semibold text-slate-800">Call Center</p>
-                            <p class="mt-1 text-slate-600">+62 811-223-344-556</p>
+                            <p class="mt-1 text-slate-600">{{$setting->phone_number}}</p>
                         </div>
                         <div>
                             <p class="font-semibold text-slate-800">Email</p>
-                            <p class="mt-1 text-slate-600">giavara.medicalclinic@gmail.com</p>
+                            <p class="mt-1 text-slate-600">{{$setting->email}}</p>
                         </div>
                         <div>
                             <p class="font-semibold text-slate-800">Our Location</p>
                             <p class="mt-1 text-slate-600">
-                                Jl. Ikun Hia, Gili Indah, Kec. Pemenang,<br>
-                                Kabupaten Lombok Utara, Nusa Tenggara
+                                {{$setting->address}}
                             </p>
                         </div>
                     </div>
@@ -34,9 +39,9 @@
                 {{-- RIGHT: Form --}}
                 <div>
                     <div class="rounded-xl bg-gray-100 p-6 shadow-sm md:p-8">
-                        <h3 class="text-2xl md:text-3xl font-semibold text-slate-900">Get In Touch</h3>
+                        <h3 class="text-2xl md:text-3xl font-semibold text-slate-900">{{ $getintouch->title }}</h3>
                         <p class="mt-2 text-sm md:text-base leading-relaxed text-slate-600">
-                            Lorem ipsum dolor sit amet consectetur. Mattis quis integer egestas neque amet massa et parturient.
+                            {{ $getintouch->content }}
                         </p>
 
                         @if (session('success'))
@@ -45,7 +50,7 @@
                         </div>
                         @endif
 
-                        <form method="POST" class="mt-6 space-y-5" novalidate>
+                        <form method="POST" action="{{ route('contact.form') }}" class="mt-6 space-y-5" novalidate id="contact-form">
                             @csrf
 
                             <div>

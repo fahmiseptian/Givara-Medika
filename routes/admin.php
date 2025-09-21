@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\Customer\Member\MemberController;
 use App\Http\Controllers\Admin\Customer\Store\StoreController;
 use App\Http\Controllers\Admin\AboutusController;
+use App\Http\Controllers\Admin\ContactusController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DoctorController;
 use App\Http\Controllers\Admin\ReviewController;
@@ -19,6 +20,12 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
         ->name('setting.term_and_condition');
     Route::post('setting/term-and-condition-store', [SettingController::class, 'term_and_condition_store'])
         ->name('setting.term_and_condition_store');
+    // Rute untuk halaman SEO Meta Setting
+    Route::get('setting/seo', [SettingController::class, 'seo'])->name('setting.seo');
+    Route::put('setting/seo/{id}', [SettingController::class, 'seo_update'])->name('setting.seo_update');
+    Route::get('setting/sitemap', function () {
+        return view('admin.setting.sitemap');
+    })->name('setting.sitemap');
 
     Route::resource('setting', SettingController::class);
 
@@ -76,4 +83,10 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     // Rute untuk tambah dan hapus review
     Route::post('/review', [ReviewController::class, 'store'])->name('review.store');
     Route::get('/review/{id}', [ReviewController::class, 'destroy'])->name('review.destroy');
+
+    // Rute untuk manajemen halaman Contact Us
+    Route::get('/contactus', [ContactusController::class, 'index'])->name('contactus.index');
+    Route::post('/contactus/update/{id}', [ContactusController::class, 'update'])->name('contactus.update');
+    Route::get('/contactus/form', [ContactusController::class, 'form'])->name('contactus.form');
+    Route::get('/contactus/form/{id}', [ContactusController::class, 'deleteForm'])->name('contactus.form.delete');
 });
