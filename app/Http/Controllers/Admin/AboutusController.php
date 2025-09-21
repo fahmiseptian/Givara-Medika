@@ -5,29 +5,28 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\AboutusPage;
 use Illuminate\Http\Request;
-use App\Models\aboutus; // Menggunakan model 'aboutus' sesuai dengan nama file dan konteks
+use App\Models\aboutus;
 use Illuminate\Support\Facades\Redirect;
 
 class AboutusController extends Controller
 {
     /**
-     * Menampilkan form pengeditan konten About Us.
+     * Display the About Us content edit form.
      *
      * @return \Illuminate\View\View
      */
     public function index()
     {
-        // Mengambil record About Us pertama. Jika tidak ada, buat record baru dengan nilai default.
+        // Get the first About Us record. If not exists, create a new one with default values.
         $aboutus = aboutus::findOrFail(1);
 
         return view('admin.aboutus.index', compact('aboutus'));
     }
 
     /**
-     * Memperbarui resource About Us yang ditentukan di penyimpanan.
+     * Update the specified About Us resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\aboutus  $aboutus
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request)
@@ -35,7 +34,7 @@ class AboutusController extends Controller
         $validatedData = $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'nullable|string',
-            'banner1' => 'nullable|image|mimes:jpeg,png,svg,gif|max:4096', // Maksimal 4MB
+            'banner1' => 'nullable|image|mimes:jpeg,png,svg,gif|max:4096', // Max 4MB
             'banner2' => 'nullable|image|mimes:jpeg,png,svg,gif|max:4096',
             'banner3' => 'nullable|image|mimes:jpeg,png,svg,gif|max:4096',
             'icon1' => 'nullable|string|max:255',
@@ -48,7 +47,7 @@ class AboutusController extends Controller
             'text4' => 'nullable|string|max:255',
         ]);
 
-        // Perbarui kolom teks
+        // Update text columns
         $aboutus = aboutus::findOrFail(1);
         $aboutus->update([
             'title' => $validatedData['title'],
@@ -63,9 +62,9 @@ class AboutusController extends Controller
             'text4' => $validatedData['text4'],
         ]);
 
-        // Tangani unggahan banner menggunakan Spatie Media Library
+        // Handle banner uploads using Spatie Media Library
         if ($request->hasFile('banner1')) {
-            $aboutus->clearMediaCollection('banner1'); // Hapus banner yang ada
+            $aboutus->clearMediaCollection('banner1');
             $aboutus->addMediaFromRequest('banner1')->toMediaCollection('banner1');
         }
 
@@ -79,25 +78,25 @@ class AboutusController extends Controller
             $aboutus->addMediaFromRequest('banner3')->toMediaCollection('banner3');
         }
 
-        return Redirect::route('admin.aboutus')->with('success', 'Konten About Us berhasil diperbarui.');
+        return Redirect::route('admin.aboutus')->with('success', 'About Us content has been updated successfully.');
     }
 
     public function page()
     {
-        // Asumsi hanya ada satu halaman aboutusPage, bisa diambil dengan id tetap atau first()
+        // Assume there is only one aboutusPage, can be retrieved by fixed id or first()
         $aboutusPage = AboutusPage::first();
         if (!$aboutusPage) {
-            // Jika belum ada, buat default
+            // If not exists, create default
             $aboutusPage = AboutusPage::create([
-                'title' => 'Judul Halaman About Us',
-                'content' => 'Konten halaman About Us di sini.',
+                'title' => 'About Us Page Title',
+                'content' => 'About Us page content here.',
             ]);
         }
         return view('admin.aboutus.detail', compact('aboutusPage'));
     }
 
     /**
-     * Update konten halaman aboutusPage.
+     * Update the aboutusPage content.
      */
     public function updatePage(Request $request, $id)
     {
@@ -112,12 +111,12 @@ class AboutusController extends Controller
         $aboutusPage->content = $request->content;
         $aboutusPage->save();
 
-        // Simpan gambar banner jika ada upload, menggunakan Spatie Media Library
+        // Save banner image if uploaded, using Spatie Media Library
         if ($request->hasFile('banner')) {
             $aboutusPage->clearMediaCollection('banner');
             $aboutusPage->addMediaFromRequest('banner')->toMediaCollection('banner');
         }
 
-        return redirect()->route('admin.aboutus.page')->with('success', 'Konten halaman About Us berhasil diperbarui.');
+        return redirect()->route('admin.aboutus.page')->with('success', 'About Us page content has been updated successfully.');
     }
 }

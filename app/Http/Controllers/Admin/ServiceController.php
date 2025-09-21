@@ -40,7 +40,7 @@ class ServiceController extends Controller
             $service->addMediaFromRequest('banner')->toMediaCollection('banner');
         }
 
-        return redirect()->route('admin.service.index')->with('success', 'Layanan berhasil ditambahkan.');
+        return redirect()->route('admin.service.index')->with('success', 'Service has been added successfully.');
     }
 
     public function edit($id)
@@ -69,7 +69,7 @@ class ServiceController extends Controller
             $service->addMediaFromRequest('banner')->toMediaCollection('banner');
         }
 
-        return redirect()->route('admin.service.index')->with('success', 'Layanan berhasil diperbarui.');
+        return redirect()->route('admin.service.index')->with('success', 'Service has been updated successfully.');
     }
 
     public function destroy($id)
@@ -78,28 +78,28 @@ class ServiceController extends Controller
         $service->clearMediaCollection('banner');
         $service->delete();
 
-        return redirect()->route('admin.service.index')->with('success', 'Layanan berhasil dihapus.');
+        return redirect()->route('admin.service.index')->with('success', 'Service has been deleted successfully.');
     }
 
     /**
-     * Menampilkan form edit halaman service (servicePage).
+     * Show the edit form for the service page (servicePage).
      */
     public function page()
     {
-        // Asumsi hanya ada satu halaman servicePage, bisa diambil dengan id tetap atau first()
+        // Assume there is only one servicePage, can be retrieved by fixed id or first()
         $servicePage = ServicePage::first();
         if (!$servicePage) {
-            // Jika belum ada, buat default
+            // If not exists, create default
             $servicePage = ServicePage::create([
-                'title' => 'Judul Halaman Service',
-                'content' => 'Konten halaman service di sini.',
+                'title' => 'Service Page Title',
+                'content' => 'Service page content here.',
             ]);
         }
         return view('admin.service.page', compact('servicePage'));
     }
 
     /**
-     * Update konten halaman service (servicePage).
+     * Update the service page content (servicePage).
      */
     public function updatePage(Request $request, $id)
     {
@@ -113,25 +113,25 @@ class ServiceController extends Controller
         $servicePage->content = $request->content;
         $servicePage->save();
 
-        return redirect()->route('admin.service.page')->with('success', 'Konten halaman service berhasil diperbarui.');
+        return redirect()->route('admin.service.page')->with('success', 'Service page content has been updated successfully.');
     }
 
     public function content()
     {
-        // Asumsi hanya ada satu halaman aboutusPage, bisa diambil dengan id tetap atau first()
+        // Assume there is only one aboutusPage, can be retrieved by fixed id or first()
         $serviceContent = ServiceContent::first();
         if (!$serviceContent) {
-            // Jika belum ada, buat default
+            // If not exists, create default
             $serviceContent = ServiceContent::create([
-                'title' => 'Judul Halaman About Us',
-                'content' => 'Konten halaman About Us di sini.',
+                'title' => 'About Us Page Title',
+                'content' => 'About Us page content here.',
             ]);
         }
         return view('admin.service.detail', compact('serviceContent'));
     }
 
     /**
-     * Update konten halaman aboutusPage.
+     * Update the aboutusPage content.
      */
     public function updateContent(Request $request, $id)
     {
@@ -146,12 +146,12 @@ class ServiceController extends Controller
         $serviceContent->content = $request->content;
         $serviceContent->save();
 
-        // Simpan gambar banner jika ada upload, menggunakan Spatie Media Library
+        // Save banner image if uploaded, using Spatie Media Library
         if ($request->hasFile('banner')) {
             $serviceContent->clearMediaCollection('banner');
             $serviceContent->addMediaFromRequest('banner')->toMediaCollection('banner');
         }
 
-        return redirect()->route('admin.service.content')->with('success', 'Konten halaman About Us berhasil diperbarui.');
+        return redirect()->route('admin.service.content')->with('success', 'About Us page content has been updated successfully.');
     }
 }

@@ -11,19 +11,19 @@ use Illuminate\Http\Request;
 class DoctorController extends Controller
 {
     /**
-     * Menampilkan halaman manajemen konten dokter.
+     * Display the doctor content management page.
      *
      * @return \Illuminate\View\View
      */
     public function index()
     {
-        // Mengambil data halaman dokter, diasumsikan hanya ada satu entri dengan ID 1
+        // Retrieve the doctor page data, assumed to have only one entry with ID 1
         $doctorPage = DoctorPage::findOrFail(1);
         return view('admin.doctor.index', compact('doctorPage'));
     }
 
     /**
-     * Memperbarui konten halaman dokter.
+     * Update the doctor page content.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -41,25 +41,31 @@ class DoctorController extends Controller
         $doctorPage->content = $request->content;
         $doctorPage->save();
 
-        return redirect()->route('admin.doctor')->with('success', 'Konten halaman dokter berhasil diperbarui.');
+        return redirect()->route('admin.doctor')->with('success', 'Doctor page content has been updated successfully.');
     }
+
+    /**
+     * Display the doctor content page.
+     *
+     * @return \Illuminate\View\View
+     */
     public function content()
     {
-        // Mengambil data halaman dokter, diasumsikan hanya ada satu entri
+        // Retrieve the doctor content, assumed to have only one entry
         $doctorPage = DoctorContent::first();
         if (!$doctorPage) {
-            // Jika belum ada, buat default
+            // If not exists, create default
             $doctorPage = DoctorContent::create([
-                'title' => 'Judul Halaman Dokter',
-                'description' => 'Deskripsi halaman dokter di sini.',
-                'content' => 'Konten halaman dokter di sini.',
+                'title' => 'Doctor Page Title',
+                'description' => 'Doctor page description here.',
+                'content' => 'Doctor page content here.',
             ]);
         }
         return view('admin.doctor.content', compact('doctorPage'));
     }
 
     /**
-     * Memperbarui konten halaman dokter.
+     * Update the doctor content page.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -79,23 +85,23 @@ class DoctorController extends Controller
         $doctorPage->content = $request->content;
         $doctorPage->save();
 
-        return redirect()->route('admin.doctor.content')->with('success', 'Konten halaman dokter berhasil diperbarui.');
+        return redirect()->route('admin.doctor.content')->with('success', 'Doctor content has been updated successfully.');
     }
 
     /**
-     * Menampilkan daftar semua dokter.
+     * Display the list of all doctors.
      *
      * @return \Illuminate\View\View
      */
     public function listDoctors()
     {
-        // Asumsi model Doctor ada dan memiliki relasi dengan Spatie Media Library
+        // Assume Doctor model exists and has relation with Spatie Media Library
         $doctors = Doctor::all();
         return view('admin.doctor.table', compact('doctors'));
     }
 
     /**
-     * Menampilkan form untuk membuat dokter baru.
+     * Show the form to create a new doctor.
      *
      * @return \Illuminate\View\View
      */
@@ -105,7 +111,7 @@ class DoctorController extends Controller
     }
 
     /**
-     * Menyimpan dokter baru ke database.
+     * Store a new doctor in the database.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse
@@ -115,7 +121,7 @@ class DoctorController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validasi untuk gambar
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Image validation
         ]);
 
         $doctor = new Doctor();
@@ -123,16 +129,16 @@ class DoctorController extends Controller
         $doctor->content = $request->description;
         $doctor->save();
 
-        // Handle upload gambar jika ada
+        // Handle image upload if exists
         if ($request->hasFile('image')) {
             $doctor->addMediaFromRequest('image')->toMediaCollection('doctor_images');
         }
 
-        return redirect()->route('admin.doctor.list')->with('success', 'Dokter berhasil ditambahkan.');
+        return redirect()->route('admin.doctor.list')->with('success', 'Doctor has been added successfully.');
     }
 
     /**
-     * Menampilkan form untuk mengedit dokter yang sudah ada.
+     * Show the form to edit an existing doctor.
      *
      * @param  int  $id
      * @return \Illuminate\View\View
@@ -144,7 +150,7 @@ class DoctorController extends Controller
     }
 
     /**
-     * Memperbarui data dokter di database.
+     * Update doctor data in the database.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -155,28 +161,27 @@ class DoctorController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validasi untuk gambar
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Image validation
         ]);
-
 
         $doctor = Doctor::findOrFail($id);
         $doctor->name = $request->name;
         $doctor->content = $request->description;
         $doctor->save();
 
-        // Handle update gambar jika ada
+        // Handle image update if exists
         if ($request->hasFile('image')) {
-            // Hapus gambar yang ada sebelumnya jika ada
+            // Remove previous image if exists
             $doctor->clearMediaCollection('doctor_images');
-            // Tambahkan gambar baru
+            // Add new image
             $doctor->addMediaFromRequest('image')->toMediaCollection('doctor_images');
         }
 
-        return redirect()->route('admin.doctor.list')->with('success', 'Data dokter berhasil diperbarui.');
+        return redirect()->route('admin.doctor.list')->with('success', 'Doctor data has been updated successfully.');
     }
 
     /**
-     * Menghapus dokter dari database.
+     * Delete a doctor from the database.
      *
      * @param  int  $id
      * @return \Illuminate\Http\RedirectResponse
@@ -186,6 +191,6 @@ class DoctorController extends Controller
         $doctor = Doctor::findOrFail($id);
         $doctor->delete();
 
-        return redirect()->route('admin.doctor.list')->with('success', 'Dokter berhasil dihapus.');
+        return redirect()->route('admin.doctor.list')->with('success', 'Doctor has been deleted successfully.');
     }
 }

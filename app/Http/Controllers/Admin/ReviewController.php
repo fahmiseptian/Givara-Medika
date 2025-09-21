@@ -9,28 +9,28 @@ use App\Models\ReviewPage;
 
 class ReviewController extends Controller
 {
-    // Menampilkan daftar review dan halaman review page
+    // Display the list of reviews and the review page
     public function index()
     {
         $reviews = Review::latest()->get();
         return view('admin.review.index', compact('reviews'));
     }
 
-    // Menampilkan form edit untuk review page
+    // Show the edit form for the review page
     public function editPage()
     {
         $reviewPage = ReviewPage::first();
         if (!$reviewPage) {
-            // Jika belum ada, buat default
-            $serviceContent = reviewPage::create([
-                'title' => 'Judul Halaman ',
-                'content' => 'Konten halaman di sini.',
+            // If not exists, create default
+            $reviewPage = ReviewPage::create([
+                'title' => 'Page Title',
+                'content' => 'Page content here.',
             ]);
         }
         return view('admin.review.page', compact('reviewPage'));
     }
 
-    // Update konten review page
+    // Update the review page content
     public function updatePage(Request $request)
     {
         $request->validate([
@@ -44,10 +44,10 @@ class ReviewController extends Controller
             'content' => $request->content,
         ]);
 
-        return redirect()->back()->with('success', 'Konten halaman review berhasil diperbarui.');
+        return redirect()->back()->with('success', 'Review page content has been updated successfully.');
     }
 
-    // CRUD untuk Review (opsional, contoh sederhana)
+    // CRUD for Review (optional, simple example)
     public function store(Request $request)
     {
         $request->validate([
@@ -57,15 +57,15 @@ class ReviewController extends Controller
             'profile_url' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        // Simpan data review tanpa gambar dulu
+        // Save review data without image first
         $review = Review::create($request->only('name', 'star', 'content'));
 
-        // Jika ada file profile_url, upload dengan spatie
+        // If there is a profile_url file, upload it using Spatie
         if ($request->hasFile('profile_url')) {
             $review->addMediaFromRequest('profile_url')->toMediaCollection('profile');
         }
 
-        return redirect()->back()->with('success', 'Review berhasil ditambahkan.');
+        return redirect()->back()->with('success', 'Review has been added successfully.');
     }
 
     public function destroy($id)
@@ -73,6 +73,6 @@ class ReviewController extends Controller
         $review = Review::findOrFail($id);
         $review->delete();
 
-        return redirect()->back()->with('success', 'Review berhasil dihapus.');
+        return redirect()->back()->with('success', 'Review has been deleted successfully.');
     }
 }

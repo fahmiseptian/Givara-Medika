@@ -75,16 +75,11 @@
                                                 class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-600 mr-3">
                                                 {{ __('Edit') }}
                                             </a>
-                                            <form action="{{ route('admin.service.destroy', $service->id) }}"
-                                                method="POST" class="inline-block"
-                                                onsubmit="return confirm('Are you sure you want to delete this service?');">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit"
-                                                    class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-600">
-                                                    {{ __('Delete') }}
-                                                </button>
-                                            </form>
+                                            <a href="{{ route('admin.service.destroy', $service->id) }}"
+                                                class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-600"
+                                                onclick="return confirm('Are you sure you want to delete this service?');">
+                                                Delete
+                                            </a>
                                         </td>
                                     </tr>
                                 @empty

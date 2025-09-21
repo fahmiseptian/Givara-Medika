@@ -14,11 +14,13 @@ class DashboardController extends Controller
         $dashboard = Dashboard::findOrFail(1);
         return view('admin.dashboard', ['dashboard' => $dashboard]);
     }
+
     public function headline()
     {
         $headlines = Headline::all();
         return view('admin.headline', ['headlines' => $headlines]);
     }
+
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -34,13 +36,13 @@ class DashboardController extends Controller
         $dashboard->save();
 
         if ($request->hasFile('banner')) {
-            // Hapus banner yang ada sebelumnya jika ada
+            // Remove previous banner if exists
             $dashboard->clearMediaCollection('banner');
-            // Tambahkan banner baru
+            // Add new banner
             $dashboard->addMediaFromRequest('banner')->toMediaCollection('banner');
         }
 
-        return redirect()->route('admin.dashboard')->with('success', 'Konten dashboard berhasil diperbarui.');
+        return redirect()->route('admin.dashboard')->with('success', 'Dashboard content has been updated successfully.');
     }
 
     public function updateHeadline(Request $request, $id)
@@ -58,6 +60,6 @@ class DashboardController extends Controller
         $headline->content = $request->content;
         $headline->save();
 
-        return redirect()->route('admin.headline')->with('success', 'Konten headline berhasil diperbarui.');
+        return redirect()->route('admin.headline')->with('success', 'Headline content has been updated successfully.');
     }
 }

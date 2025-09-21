@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\DoctorController;
 use App\Http\Controllers\Admin\ReviewController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
@@ -41,7 +42,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::post('/doctors', [DoctorController::class, 'storeDoctor'])->name('doctor.storeDoctor');
     Route::get('/doctors/{id}/edit', [DoctorController::class, 'editDoctor'])->name('doctor.editDoctor');
     Route::put('/doctors/{id}', [DoctorController::class, 'updateDoctor'])->name('doctor.updateDoctor');
-    Route::delete('/doctors/{id}', [DoctorController::class, 'deleteDoctor'])->name('doctor.deleteDoctor');
+    Route::get('/doctors/{id}/delete', [DoctorController::class, 'deleteDoctor'])->name('doctor.deleteDoctor');
 
     // Rute untuk manajemen layanan (Service)
     Route::get('/services', [ServiceController::class, 'index'])->name('service.index');
@@ -49,7 +50,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::post('/services', [ServiceController::class, 'store'])->name('service.store');
     Route::get('/services/{id}/edit', [ServiceController::class, 'edit'])->name('service.edit');
     Route::put('/services/{id}', [ServiceController::class, 'update'])->name('service.update');
-    Route::delete('/services/{id}', [ServiceController::class, 'destroy'])->name('service.destroy');
+    Route::get('/services/{id}/delete', [ServiceController::class, 'destroy'])->name('service.destroy');
 
     // Rute untuk halaman konten utama layanan (Service Page)
     Route::get('/service-page', [ServiceController::class, 'page'])->name('service.page');
@@ -89,4 +90,12 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::post('/contactus/update/{id}', [ContactusController::class, 'update'])->name('contactus.update');
     Route::get('/contactus/form', [ContactusController::class, 'form'])->name('contactus.form');
     Route::get('/contactus/form/{id}', [ContactusController::class, 'deleteForm'])->name('contactus.form.delete');
+
+    // Rute untuk manajemen user admin
+    Route::get('/users', [UserController::class, 'index'])->name('user.index');
+    Route::get('/users/create', [UserController::class, 'create'])->name('user.create');
+    Route::post('/users', [UserController::class, 'store'])->name('user.store');
+    Route::get('/users/{id}/edit', [UserController::class, 'edit'])->name('user.edit');
+    Route::put('/users/{id}', [UserController::class, 'update'])->name('user.update');
+    Route::get('/users/delete/{id}', [UserController::class, 'destroy'])->name('user.destroy');
 });
