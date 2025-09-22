@@ -23,10 +23,10 @@
                 <div class="col-span-12 lg:col-span-4">
                     <p class="uppercase tracking-widest text-[11px] text-white/70 mb-3">Our Doctors</p>
                     <h2 class="text-white font-extrabold leading-tight text-3xl xl:text-4xl 2xl:text-[34px] mb-4">
-                        {{ $doctorPage->headline ?? 'Your Headline or Tagline Here' }}
+                        {{ $doctorPage->title ?? 'Your Headline or Tagline Here' }}
                     </h2>
                     <p class="text-white/80 text-sm md:text-base max-w-md">
-                        {{ $doctorPage->description ?? 'Lorem ipsum dolor sit amet consectetur. Mattis quis integer egestas neque amet massa et parturient.' }}
+                        {{ $doctorPage->content ?? 'Lorem ipsum dolor sit amet consectetur. Mattis quis integer egestas neque amet massa et parturient.' }}
                     </p>
 
                     <a href="#contact"

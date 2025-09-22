@@ -13,11 +13,11 @@ class contactusSeeder extends Seeder
     public function run(): void
     {
         //
-    \App\Models\contactus::create([
+    \App\Models\Contactus::create([
         'title' => 'Your Headline',
         'content' => 'Lorem ipsum dolor sit amet consectetur. Dignissim molestie mi arcu in fermentum in nulla non. Turpis consequat eleifend est mat.'
     ]);
-    \App\Models\contactus::create([
+    \App\Models\Contactus::create([
         'title' => 'Your Headline',
         'content' => 'Lorem ipsum dolor sit amet consectetur. Dignissim molestie mi arcu in fermentum in nulla non. Turpis consequat eleifend est mat.'
     ]);

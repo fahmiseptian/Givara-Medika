@@ -1,7 +1,7 @@
 @php
 /** @var \App\Models\Dashboard $dashboard */
 $dashboard = \App\Models\Dashboard::findOrFail(1);
-$contactus = \App\Models\contactus::findOrFail(1);
+$contactus = \App\Models\Contactus::findOrFail(1);
 @endphp
 
 <section

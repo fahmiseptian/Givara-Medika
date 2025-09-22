@@ -57,8 +57,8 @@ $getintouch = \App\Models\contactus::findOrFail(3);
                                 <label for="name" class="block text-xs font-medium text-slate-700 mb-1">Full Name</label>
                                 <input
                                     id="name" name="name" type="text" value="{{ old('name') }}" required autocomplete="name"
-                                    class="w-full bg-transparent px-3 py-2 text-sm border-0 border-b-2 border-slate-200 placeholder-slate-400
-                         focus:border-indigo-500 focus:ring-0 transition"
+                                    class="appearance-none w-full bg-transparent px-3 py-2 text-sm border-0 border-b-2 border-slate-200 
+                   placeholder-slate-400 focus:border-indigo-500 focus:ring-0 transition text-slate-900"
                                     placeholder="Your full name">
                                 @error('name') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
                             </div>
@@ -67,8 +67,8 @@ $getintouch = \App\Models\contactus::findOrFail(3);
                                 <label for="email" class="block text-xs font-medium text-slate-700 mb-1">Email</label>
                                 <input
                                     id="email" name="email" type="email" value="{{ old('email') }}" required autocomplete="email"
-                                    class="w-full bg-transparent px-3 py-2 text-sm border-0 border-b-2 border-slate-200 placeholder-slate-400
-                         focus:border-indigo-500 focus:ring-0 transition"
+                                    class="appearance-none w-full bg-transparent px-3 py-2 text-sm border-0 border-b-2 border-slate-200 
+                   placeholder-slate-400 focus:border-indigo-500 focus:ring-0 transition text-slate-900"
                                     placeholder="you@mail.com">
                                 @error('email') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
                             </div>
@@ -77,8 +77,8 @@ $getintouch = \App\Models\contactus::findOrFail(3);
                                 <label for="subject" class="block text-xs font-medium text-slate-700 mb-1">Subject</label>
                                 <input
                                     id="subject" name="subject" type="text" value="{{ old('subject') }}" required
-                                    class="w-full bg-transparent px-3 py-2 text-sm border-0 border-b-2 border-slate-200 placeholder-slate-400
-                         focus:border-indigo-500 focus:ring-0 transition"
+                                    class="appearance-none w-full bg-transparent px-3 py-2 text-sm border-0 border-b-2 border-slate-200 
+                   placeholder-slate-400 focus:border-indigo-500 focus:ring-0 transition text-slate-900"
                                     placeholder="How can we help?">
                                 @error('subject') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
                             </div>
@@ -87,19 +87,19 @@ $getintouch = \App\Models\contactus::findOrFail(3);
                                 <label for="message" class="block text-xs font-medium text-slate-700 mb-1">Message</label>
                                 <textarea
                                     id="message" name="message" rows="4" required
-                                    class="w-full bg-transparent px-3 py-2 text-sm border-0 border-b-2 border-slate-200 placeholder-slate-400
-                         focus:border-indigo-500 focus:ring-0 transition"
+                                    class="appearance-none w-full bg-transparent px-3 py-2 text-sm border-0 border-b-2 border-slate-200 
+                   placeholder-slate-400 focus:border-indigo-500 focus:ring-0 transition text-slate-900"
                                     placeholder="Write your message here...">{{ old('message') }}</textarea>
                                 @error('message') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
                             </div>
 
                             {{-- Honeypot anti-bot (opsional) --}}
-                            <input type="text" name="website" class="hidden" tabindex="-1" autocomplete="off">
+                            <input type="text" name="website" class="appearance-none hidden" tabindex="-1" autocomplete="off">
 
                             <div class="pt-1">
                                 <button type="submit"
                                     class="inline-flex items-center rounded-lg bg-blue-900 px-4 py-2 text-sm font-semibold text-white
-                               shadow hover:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                   shadow hover:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-indigo-500">
                                     Send Message
                                 </button>
                             </div>

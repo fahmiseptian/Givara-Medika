@@ -19,7 +19,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
         ->name('setting.privacy_policy_store');
     Route::get('setting/term-and-condition', [SettingController::class, 'term_and_condition'])
         ->name('setting.term_and_condition');
-    Route::post('setting/term-and-condition-store', [SettingController::class, 'term_and_condition_store'])
+    Route::post('setting/term-and-condition-store', [SettingController::class, 'term_and_condition_post'])
         ->name('setting.term_and_condition_store');
     // Rute untuk halaman SEO Meta Setting
     Route::get('setting/seo', [SettingController::class, 'seo'])->name('setting.seo');
