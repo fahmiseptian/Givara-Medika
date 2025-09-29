@@ -1,6 +1,6 @@
 @php
-    /** @var \App\Models\Dashboard $dashboard */
-    $dashboard = \App\Models\Dashboard::findOrFail(1);
+/** @var \App\Models\Dashboard $dashboard */
+$dashboard = \App\Models\Dashboard::findOrFail(1);
 @endphp
 
 <section
@@ -41,7 +41,7 @@
                     {{ $dashboard->content }}
                 </p>
 
-                <a href="https://wa.me/{{ $setting->wa_number }}?text=Halo%20saya%20ingin%20bertanya%20tentang%20layanan%20Anda" target="_blank" rel="noopener"
+                <a href="https://wa.me/{{ $setting->wa_number }}?text={{ $setting->text_wa }}" target="_blank" rel="noopener"
                     class="inline-flex items-center justify-center
                           rounded-full bg-blue-900 text-white
                           px-5 py-2.5 sm:px-6 sm:py-3

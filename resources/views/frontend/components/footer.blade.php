@@ -112,7 +112,7 @@
                         <svg class="mt-0.5 h-5 w-5 flex-none text-gray-600" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M12 2a7 7 0 00-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 00-7-7zm0 9.5A2.5 2.5 0 1114.5 9 2.5 2.5 0 0112 11.5z" />
                         </svg>
-                        <span class="mt-0.5">{{ $setting->address }}</span>
+                        <a href="{{ $setting->link_gmaps }}" class="mt-0.5 text-sky-600 hover:underline" target="_blank" rel="noopener">{{ $setting->address }}</a>
                     </li>
                 </ul>
             </div>

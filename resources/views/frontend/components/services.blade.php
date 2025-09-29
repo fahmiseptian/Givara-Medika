@@ -53,7 +53,7 @@ return [
                     </p>
 
                     <div class="mt-4 pt-1">
-                        <a href="https://wa.me/{{ $setting->wa_number }}?text=Halo%20saya%20ingin%20bertanya%20tentang%20layanan%20Anda" target="_blank" rel="noopener"
+                        <a href="https://wa.me/{{ $setting->wa_number }}?text={{ $setting->text_wa }}" target="_blank" rel="noopener"
                             class="inline-flex items-center rounded-full bg-red-600 px-4 py-2 text-xs font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500">
                             Get Service
                         </a>

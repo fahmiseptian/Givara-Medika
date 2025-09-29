@@ -91,7 +91,7 @@ $colB = $reviews->values()->filter(fn($v,$k)=>$k % 2 === 1);
                 <p class="mt-5 text-base/7 opacity-95 max-w-xl">
                     {{ $reviewPage?->content ?? 'No review description yet.' }}
                 </p>
-                <a href="https://wa.me/{{ $setting->wa_number }}?text=Halo%20saya%20ingin%20bertanya%20tentang%20layanan%20Anda" target="_blank" rel="noopener" 
+                <a href="https://wa.me/{{ $setting->wa_number }}?text={{ $setting->text_wa }}" target="_blank" rel="noopener" 
                     class="mt-6 inline-flex items-center rounded-full bg-white px-6 py-2.5 text-sm font-semibold text-red-700 hover:bg-slate-100">
                     Contact Us
                 </a>

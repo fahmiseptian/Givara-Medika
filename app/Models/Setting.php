@@ -29,7 +29,9 @@ class Setting extends Model implements HasMedia
         'link_appstore',
         'link_fb',
         'link_twitter',
-        'link_ig'
+        'link_ig',
+        'link_gmaps',
+        'text_wa',
     ];
     protected $hidden = ['created_at', 'updated_at', 'media'];
     protected $appends = ['logo_url'];

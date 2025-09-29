@@ -1,7 +1,7 @@
 <!-- Floating WhatsApp Button -->
 <div class="fixed bottom-4 right-4 z-50">
     <a
-        href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $setting->wa_number) }}?text={{ urlencode('Halo kak, saya mau tanya.') }}"
+        href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $setting->wa_number) }}?text={{ $setting->text_wa }}"
         target="_blank"
         rel="noopener"
         aria-label="Chat WhatsApp"

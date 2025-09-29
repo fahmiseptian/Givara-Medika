@@ -73,6 +73,18 @@
                                 <x-input-error :messages="$errors->get('wa_number')" class="mt-2" />
                             </div>
                             <div>
+                                <x-input-label for="text_wa" :value="__('WhatsApp Text')" />
+                                <x-text-input id="text_wa" name="text_wa" type="text" class="mt-1 block w-full"
+                                    :value="old('text_wa', $setting->text_wa ?? '')" />
+                                <x-input-error :messages="$errors->get('text_wa')" class="mt-2" />
+                            </div>
+                            <div>
+                                <x-input-label for="link_gmaps" :value="__('Google maps Link')" />
+                                <x-text-input id="link_gmaps" name="link_gmaps" type="text" class="mt-1 block w-full"
+                                    :value="old('link_gmaps', $setting->link_gmaps ?? '')" />
+                                <x-input-error :messages="$errors->get('link_gmaps')" class="mt-2" />
+                            </div>
+                            <div>
                                 <x-input-label for="link_fb" :value="__('Facebook Link')" />
                                 <x-text-input id="link_fb" name="link_fb" type="text" class="mt-1 block w-full"
                                     :value="old('link_fb', $setting->link_fb ?? '')" />
