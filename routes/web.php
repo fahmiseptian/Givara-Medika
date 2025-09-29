@@ -37,6 +37,18 @@ Route::get('/reviews', function () {
 Route::get('/contact', function () {
     return view('frontend.contactus');
 });
+
+// Route untuk halaman Term and Condition
+Route::get('/terms-conditions', function () {
+    return view('frontend.term_and_condition');
+})->name('term_and_condition');
+
+// Route untuk halaman Privacy Policy
+Route::get('/privacy-policy', function () {
+    return view('frontend.PrivacyPolicy');
+})->name('privacy_policy');
+
+
 Route::post('/contact', [UserController::class, 'submitContactForm'])->name('contact.form');
 
 Route::get('/dashboard', function () {
@@ -85,7 +97,7 @@ Route::get('/generate-sitemap', function () {
         $sitemap->add(
             Url::create(url($page->page === 'home' ? '/' : $page->page))
                 ->setLastModificationDate(now())
-                ->setChangeFrequency(Url::CHANGE_FREQUENCY_ALWAYS)
+                ->setChangeFrequency(Url::CHANGE_FREQUENCY_DAILY)
                 ->setPriority(0.8)
         );
     }

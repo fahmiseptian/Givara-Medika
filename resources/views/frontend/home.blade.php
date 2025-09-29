@@ -30,6 +30,17 @@ $setting = setting();
     @include('frontend.components.service')
     @include('frontend.components.review')
     @include('frontend.components.contactus')
+    @include('frontend.components.patnership')
+
+    @include('frontend.components.footer')
+
+
+
+    <script>
+        // Tahun otomatis
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+
 
     @include('layouts.partials.js')
 

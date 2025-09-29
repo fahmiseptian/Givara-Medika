@@ -1,7 +1,7 @@
 @php
 $setting = setting();
-$contactus = \App\Models\contactus::findOrFail(2);
-$getintouch = \App\Models\contactus::findOrFail(3);
+$contactus = \App\Models\Contactus::findOrFail(2);
+$getintouch = \App\Models\Contactus::findOrFail(3);
 @endphp
 
 <section class="container mx-auto md:px-12">

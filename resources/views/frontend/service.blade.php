@@ -24,7 +24,7 @@ $setting = setting();
 <body class="font-sans antialiased bg-white">
     @include('frontend.components.navbar')
     @include('frontend.components.services')
-
+    @include('frontend.components.footer')
     @include('layouts.partials.js')
 
 </body>

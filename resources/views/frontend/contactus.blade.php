@@ -25,7 +25,7 @@ $setting = setting();
     @include('frontend.components.navbar')
     @include('frontend.components.contact')
     @include('frontend.components.contactus')
-
+    @include('frontend.components.footer')
     @include('layouts.partials.js')
 
 </body>

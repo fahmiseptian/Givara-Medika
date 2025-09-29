@@ -26,7 +26,7 @@ $setting = setting();
     @include('frontend.components.dashboard')
     @include('frontend.components.aboutus')
     @include('frontend.components.about-us')
-
+    @include('frontend.components.footer')
     @include('layouts.partials.js')
 
 </body>

@@ -25,7 +25,7 @@ $setting = setting();
     @include('frontend.components.navbar')
     @include('frontend.components.doctor')
     @include('frontend.components.doctors')
-
+    @include('frontend.components.footer')
     @include('layouts.partials.js')
 
 </body>
