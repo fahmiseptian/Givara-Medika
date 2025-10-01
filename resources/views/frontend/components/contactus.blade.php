@@ -9,7 +9,7 @@
         <div class="mx-auto max-w-6xl px-6 py-6">
             <div class="grid grid-cols-1 gap-10 md:grid-cols-2 mt-6">
                 {{-- LEFT: Info --}}
-                <div class="max-w-xl">
+                <div class="max-w-xl animate-fadeInLeft">
                     <p class="text-xs uppercase tracking-widest text-slate-500 mb-3">Contact Us</p>
                     <h1 class="text-4xl font-extrabold leading-tight text-slate-900">
                         {{ $contactus->title }}
@@ -38,7 +38,7 @@
                 </div>
 
                 {{-- RIGHT: Form --}}
-                <div>
+                <div class="animate-fadeInRight">
                     <div class="rounded-xl bg-gray-100 p-6 shadow-sm md:p-8">
                         <h3 class="text-2xl md:text-3xl font-semibold text-slate-900">{{ $getintouch->title }}</h3>
                         <p class="mt-2 text-sm md:text-base leading-relaxed text-slate-600">
