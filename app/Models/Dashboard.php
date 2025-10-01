@@ -17,16 +17,20 @@ class Dashboard extends Model implements HasMedia
     protected $table = 'dashboard';
     protected $guarded = [];
     protected $hidden = ['created_at', 'updated_at', 'media'];
-    protected $appends = ['banner_url']; // Mengganti 'logo_url' menjadi 'banner_url'
+    // Tambahkan 'video_url' ke $appends
+    protected $appends = ['banner_url', 'video_url'];
 
     public function registerMediaCollections(): void
     {
         $this
-            ->addMediaCollection('banner') // Mengganti 'logo' menjadi 'banner'
-            ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/svg', 'image/gif']); // Menambahkan gif sebagai tipe yang diterima
+            ->addMediaCollection('banner')
+            ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/svg', 'image/gif']);
+        $this
+            ->addMediaCollection('video')
+            ->acceptsMimeTypes(['video/mp4', 'video/webm', 'video/ogg']);
     }
 
-    public function getBannerUrlAttribute($value) // Mengganti 'getLogoUrlAttribute' menjadi 'getBannerUrlAttribute'
+    public function getBannerUrlAttribute($value)
     {
         $media = $this->getFirstMedia('banner');
         if (!$media) {
@@ -35,6 +39,22 @@ class Dashboard extends Model implements HasMedia
             } else {
                 return asset('frontend/images/default-banner.png');
             }
+        } else {
+            if ($media->disk != 'public') {
+                return $media->getTemporaryUrl(Carbon::now()->addMinutes(intval(1140)));
+            } else {
+                return $media->getUrl();
+            }
+        }
+    }
+
+    // Getter untuk video_url
+    public function getVideoUrlAttribute($value)
+    {
+        $media = $this->getFirstMedia('video');
+        if (!$media) {
+            // Jika tidak ada video, bisa return null atau default video
+            return null;
         } else {
             if ($media->disk != 'public') {
                 return $media->getTemporaryUrl(Carbon::now()->addMinutes(intval(1140)));

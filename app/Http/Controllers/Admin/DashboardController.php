@@ -26,23 +26,35 @@ class DashboardController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'nullable|string',
+            'title_vidio' => 'required|string|max:255',
+            'content_vidio' => 'nullable|string',
             'banner' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'video' => 'nullable|file|mimetypes:video/mp4,video/webm,video/ogg|max:51200', // max 50MB
         ]);
 
         $dashboard = Dashboard::findOrFail($id);
 
         $dashboard->title = $request->title;
         $dashboard->content = $request->content;
+        $dashboard->title_vidio = $request->title_vidio;
+        $dashboard->content_vidio = $request->content_vidio;
         $dashboard->save();
 
         if ($request->hasFile('banner')) {
-            // Remove previous banner if exists
+            // Hapus banner sebelumnya jika ada
             $dashboard->clearMediaCollection('banner');
-            // Add new banner
+            // Tambahkan banner baru
             $dashboard->addMediaFromRequest('banner')->toMediaCollection('banner');
         }
 
-        return redirect()->route('admin.dashboard')->with('success', 'Dashboard content has been updated successfully.');
+        if ($request->hasFile('video')) {
+            // Hapus video sebelumnya jika ada
+            $dashboard->clearMediaCollection('video');
+            // Tambahkan video baru
+            $dashboard->addMediaFromRequest('video')->toMediaCollection('video');
+        }
+
+        return redirect()->route('admin.dashboard')->with('success', 'Konten dashboard berhasil diperbarui.');
     }
 
     public function updateHeadline(Request $request, $id)

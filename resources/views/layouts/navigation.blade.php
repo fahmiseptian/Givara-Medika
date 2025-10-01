@@ -44,6 +44,13 @@
                 <span x-show="open || window.innerWidth >= 768" x-transition.opacity>Headline</span>
             </a>
         </li>
+        <li>
+            <a href="{{ route('admin.patnership.index') }}"
+                class="flex items-center py-2 px-3 rounded-md transition-colors duration-200 relative {{ request()->routeIs('admin.patnership.index') ? 'bg-gray-200 dark:bg-gray-700 text-primary' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-primary' }}">
+                <i class="bi bi-people mr-2"></i>
+                <span x-show="open || window.innerWidth >= 768" x-transition.opacity>Patnership</span>
+            </a>
+        </li>
         <li x-data="{ submenuOpen: {{ request()->routeIs('admin.aboutus') || request()->routeIs('admin.aboutus.page') ? 'true' : 'false' }} }">
             <a @click="submenuOpen = !submenuOpen"
                 class="flex items-center py-2 px-3 rounded-md cursor-pointer transition-colors duration-200 relative

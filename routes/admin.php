@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\AboutusController;
 use App\Http\Controllers\Admin\ContactusController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DoctorController;
+use App\Http\Controllers\Admin\PatnershipController;
 use App\Http\Controllers\Admin\ReviewController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\SettingController;
@@ -98,4 +99,12 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::get('/users/{id}/edit', [UserController::class, 'edit'])->name('user.edit');
     Route::put('/users/{id}', [UserController::class, 'update'])->name('user.update');
     Route::get('/users/delete/{id}', [UserController::class, 'destroy'])->name('user.destroy');
+
+    // Rute untuk manajemen partnership
+    Route::get('/patnership', [PatnershipController::class, 'index'])->name('patnership.index');
+    Route::get('/patnership/create', [PatnershipController::class, 'create'])->name('patnership.create');
+    Route::post('/patnership', [PatnershipController::class, 'store'])->name('patnership.store');
+    Route::get('/patnership/{id}/edit', [PatnershipController::class, 'edit'])->name('patnership.edit');
+    Route::put('/patnership/{id}', [PatnershipController::class, 'update'])->name('patnership.update');
+    Route::get('/patnership/{id}/delete', [PatnershipController::class, 'destroy'])->name('patnership.destroy');
 });
