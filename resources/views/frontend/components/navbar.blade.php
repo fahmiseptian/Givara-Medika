@@ -1,4 +1,4 @@
-<nav class="navbar bg-blue-900 text-white">
+<nav class="navbar bg-blue-accent text-white">
 
     <div class="flex">
         <a href="{{ url('/') }}" class="btn btn-ghost normal-case text-xl">
@@ -20,7 +20,7 @@
     <div class="flex-none md:hidden ml-auto">
         <details class="dropdown dropdown-end">
             <summary class="m-1 btn">☰</summary>
-            <ul class="p-2 shadow menu dropdown-content dropdown-end z-[1] bg-blue-900 rounded-box w-52">
+            <ul class="p-2 shadow menu dropdown-content dropdown-end z-[1] bg-blue-accent rounded-box w-52">
                 <li><a href="{{ url('/') }}">Home</a></li>
                 <li><a href="{{ url('/about') }}">About</a></li>
                 <li><a href="{{ url('/doctors') }}">Doctors</a></li>

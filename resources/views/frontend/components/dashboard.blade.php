@@ -1,6 +1,6 @@
 @php
-/** @var \App\Models\Dashboard $dashboard */
-$dashboard = \App\Models\Dashboard::findOrFail(1);
+    /** @var \App\Models\Dashboard $dashboard */
+    $dashboard = \App\Models\Dashboard::findOrFail(1);
 @endphp
 
 <section
@@ -41,9 +41,10 @@ $dashboard = \App\Models\Dashboard::findOrFail(1);
                     {{ $dashboard->content }}
                 </p>
 
-                <a href="https://wa.me/{{ $setting->wa_number }}?text={{ $setting->text_wa }}" target="_blank" rel="noopener"
+                <a href="https://wa.me/{{ $setting->wa_number }}?text={{ $setting->text_wa }}" target="_blank"
+                    rel="noopener"
                     class="inline-flex items-center justify-center
-                          rounded-full bg-blue-900 text-white
+                          rounded-full bg-blue-accent text-white
                           px-5 py-2.5 sm:px-6 sm:py-3
                           text-sm sm:text-base font-semibold
                           shadow hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500">

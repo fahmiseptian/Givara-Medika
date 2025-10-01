@@ -1,12 +1,12 @@
 @php
-use App\Models\Doctor;
-use App\Models\DoctorPage;
+    use App\Models\Doctor;
+    use App\Models\DoctorPage;
 
-$doctorPage = DoctorPage::first();
-$doctors = Doctor::latest()->take(3)->get();
+    $doctorPage = DoctorPage::first();
+    $doctors = Doctor::latest()->take(3)->get();
 @endphp
 
-<section class="bg-blue-900  py-16">
+<section class="bg-blue-accent  py-16">
     <div class="container mx-auto max-w-7xl px-6 lg:px-10">
         <div class="relative">
             {{-- See more (kanan atas) --}}
@@ -29,7 +29,8 @@ $doctors = Doctor::latest()->take(3)->get();
                         {{ $doctorPage->content ?? 'Lorem ipsum dolor sit amet consectetur. Mattis quis integer egestas neque amet massa et parturient.' }}
                     </p>
 
-                    <a href="https://wa.me/{{ $setting->wa_number }}?text={{ $setting->text_wa }}" target="_blank" rel="noopener"
+                    <a href="https://wa.me/{{ $setting->wa_number }}?text={{ $setting->text_wa }}" target="_blank"
+                        rel="noopener"
                         class="mt-8 inline-flex items-center rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-[#071752] hover:bg-gray-100">
                         Contact Us
                     </a>
@@ -39,30 +40,30 @@ $doctors = Doctor::latest()->take(3)->get();
                 <div class="col-span-12 lg:col-span-8">
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                         @forelse($doctors as $doctor)
-                        @php
-                        $photo =
-                        $doctor->getFirstMediaUrl('doctor_images') ?: asset('images/default-doctor.png');
-                        @endphp
-                        <article class="relative overflow-hidden rounded-xl bg-white shadow-sm">
-                            {{-- Tambahkan tinggi gambar di sini --}}
-                            <img src="{{ $photo }}" alt="{{ $doctor->name }}"
-                                class="h-[380px] w-full object-cover">
-                            {{-- Gradient putih di bawah (seperti gambar) --}}
-                            <div
-                                class="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-white via-white/80 to-transparent">
-                            </div>
+                            @php
+                                $photo =
+                                    $doctor->getFirstMediaUrl('doctor_images') ?: asset('images/default-doctor.png');
+                            @endphp
+                            <article class="relative overflow-hidden rounded-xl bg-white shadow-sm">
+                                {{-- Tambahkan tinggi gambar di sini --}}
+                                <img src="{{ $photo }}" alt="{{ $doctor->name }}"
+                                    class="h-[380px] w-full object-cover">
+                                {{-- Gradient putih di bawah (seperti gambar) --}}
+                                <div
+                                    class="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-white via-white/80 to-transparent">
+                                </div>
 
-                            <div class="absolute inset-x-0 bottom-0 px-4 pb-4">
-                                <h3 class="text-[15px] font-semibold text-red-600"> {{ $doctor->name }} </h3>
-                                <p class="mt-1 text-xs text-slate-600">
-                                    {{ \Illuminate\Support\Str::limit($doctor->content, 70) }}
-                                </p>
-                            </div>
-                        </article>
+                                <div class="absolute inset-x-0 bottom-0 px-4 pb-4">
+                                    <h3 class="text-[15px] font-semibold text-red-600"> {{ $doctor->name }} </h3>
+                                    <p class="mt-1 text-xs text-slate-600">
+                                        {{ \Illuminate\Support\Str::limit($doctor->content, 70) }}
+                                    </p>
+                                </div>
+                            </article>
                         @empty
-                        <div class="col-span-full text-center text-white/80">
-                            Tidak ada dokter yang tersedia saat ini.
-                        </div>
+                            <div class="col-span-full text-center text-white/80">
+                                Tidak ada dokter yang tersedia saat ini.
+                            </div>
                         @endforelse
                     </div>
                 </div>
