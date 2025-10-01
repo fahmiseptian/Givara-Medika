@@ -1,7 +1,7 @@
 @php
-$setting = setting();
-$contactus = \App\Models\Contactus::findOrFail(2);
-$getintouch = \App\Models\Contactus::findOrFail(3);
+    $setting = setting();
+    $contactus = \App\Models\Contactus::findOrFail(2);
+    $getintouch = \App\Models\Contactus::findOrFail(3);
 @endphp
 
 <section class="container mx-auto md:px-12">
@@ -21,17 +21,18 @@ $getintouch = \App\Models\Contactus::findOrFail(3);
                     <div class="mt-8 space-y-6 text-sm">
                         <div>
                             <p class="font-semibold text-slate-800">Call Center</p>
-                            <p class="mt-1 text-slate-600">{{$setting->phone_number}}</p>
+                            <a href="tel:+{{ $setting->phone_number }}"
+                                class="mt-1 text-sky-600 hover:underline">{{ $setting->phone_number }}</a>
                         </div>
                         <div>
                             <p class="font-semibold text-slate-800">Email</p>
-                            <p class="mt-1 text-slate-600">{{$setting->email}}</p>
+                            <a href="mailto:{{ $setting->email }}"
+                                class="mt-1 text-sky-600 hover:underline">{{ $setting->email }}</a>
                         </div>
                         <div>
                             <p class="font-semibold text-slate-800">Our Location</p>
-                            <p class="mt-1 text-slate-600">
-                                {{$setting->address}}
-                            </p>
+                            <a href="{{ $setting->link_gmaps }}" class="mt-1 text-sky-600 hover:underline"
+                                target="_blank" rel="noopener">{{ $setting->address }}</a>
                         </div>
                     </div>
                 </div>
@@ -45,56 +46,69 @@ $getintouch = \App\Models\Contactus::findOrFail(3);
                         </p>
 
                         @if (session('success'))
-                        <div class="mt-4 rounded-md bg-green-50 p-3 text-sm text-green-700">
-                            {{ session('success') }}
-                        </div>
+                            <div class="mt-4 rounded-md bg-green-50 p-3 text-sm text-green-700">
+                                {{ session('success') }}
+                            </div>
                         @endif
 
-                        <form method="POST" action="{{ route('contact.form') }}" class="mt-6 space-y-5" novalidate id="contact-form">
+                        <form method="POST" action="{{ route('contact.form') }}" class="mt-6 space-y-5" novalidate
+                            id="contact-form">
                             @csrf
 
                             <div>
-                                <label for="name" class="block text-xs font-medium text-slate-700 mb-1">Full Name</label>
-                                <input
-                                    id="name" name="name" type="text" value="{{ old('name') }}" required autocomplete="name"
+                                <label for="name" class="block text-xs font-medium text-slate-700 mb-1">Full
+                                    Name</label>
+                                <input id="name" name="name" type="text" value="{{ old('name') }}"
+                                    required autocomplete="name"
                                     class="appearance-none w-full bg-transparent px-3 py-2 text-sm border-0 border-b-2 border-slate-200 
                    placeholder-slate-400 focus:border-indigo-500 focus:ring-0 transition text-slate-900"
                                     placeholder="Your full name">
-                                @error('name') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
+                                @error('name')
+                                    <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                                @enderror
                             </div>
 
                             <div>
-                                <label for="email" class="block text-xs font-medium text-slate-700 mb-1">Email</label>
-                                <input
-                                    id="email" name="email" type="email" value="{{ old('email') }}" required autocomplete="email"
+                                <label for="email"
+                                    class="block text-xs font-medium text-slate-700 mb-1">Email</label>
+                                <input id="email" name="email" type="email" value="{{ old('email') }}"
+                                    required autocomplete="email"
                                     class="appearance-none w-full bg-transparent px-3 py-2 text-sm border-0 border-b-2 border-slate-200 
                    placeholder-slate-400 focus:border-indigo-500 focus:ring-0 transition text-slate-900"
                                     placeholder="you@mail.com">
-                                @error('email') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
+                                @error('email')
+                                    <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                                @enderror
                             </div>
 
                             <div>
-                                <label for="subject" class="block text-xs font-medium text-slate-700 mb-1">Subject</label>
-                                <input
-                                    id="subject" name="subject" type="text" value="{{ old('subject') }}" required
+                                <label for="subject"
+                                    class="block text-xs font-medium text-slate-700 mb-1">Subject</label>
+                                <input id="subject" name="subject" type="text" value="{{ old('subject') }}"
+                                    required
                                     class="appearance-none w-full bg-transparent px-3 py-2 text-sm border-0 border-b-2 border-slate-200 
                    placeholder-slate-400 focus:border-indigo-500 focus:ring-0 transition text-slate-900"
                                     placeholder="How can we help?">
-                                @error('subject') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
+                                @error('subject')
+                                    <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                                @enderror
                             </div>
 
                             <div>
-                                <label for="message" class="block text-xs font-medium text-slate-700 mb-1">Message</label>
-                                <textarea
-                                    id="message" name="message" rows="4" required
+                                <label for="message"
+                                    class="block text-xs font-medium text-slate-700 mb-1">Message</label>
+                                <textarea id="message" name="message" rows="4" required
                                     class="appearance-none w-full bg-transparent px-3 py-2 text-sm border-0 border-b-2 border-slate-200 
                    placeholder-slate-400 focus:border-indigo-500 focus:ring-0 transition text-slate-900"
                                     placeholder="Write your message here...">{{ old('message') }}</textarea>
-                                @error('message') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
+                                @error('message')
+                                    <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                                @enderror
                             </div>
 
                             {{-- Honeypot anti-bot (opsional) --}}
-                            <input type="text" name="website" class="appearance-none hidden" tabindex="-1" autocomplete="off">
+                            <input type="text" name="website" class="appearance-none hidden" tabindex="-1"
+                                autocomplete="off">
 
                             <div class="pt-1">
                                 <button type="submit"

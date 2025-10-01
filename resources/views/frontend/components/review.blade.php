@@ -16,21 +16,21 @@
     }
 </style>
 @php
-use App\Models\Review;
-use App\Models\ReviewPage;
+    use App\Models\Review;
+    use App\Models\ReviewPage;
 
-// Get reviewPage data (title & description)
-$reviewPage = \App\Models\ReviewPage::first();
+    // Get reviewPage data (title & description)
+    $reviewPage = \App\Models\ReviewPage::first();
 
-// Get reviews from database
-$reviews = \App\Models\Review::latest()->get();
+    // Get reviews from database
+    $reviews = \App\Models\Review::latest()->get();
 
-// Split reviews into two columns
-$colA = $reviews->values()->filter(fn($v,$k)=>$k % 2 === 0);
-$colB = $reviews->values()->filter(fn($v,$k)=>$k % 2 === 1);
+    // Split reviews into two columns
+    $colA = $reviews->values()->filter(fn($v, $k) => $k % 2 === 0);
+    $colB = $reviews->values()->filter(fn($v, $k) => $k % 2 === 1);
 @endphp
 
-<section class="bg-red-600">
+<section class="bg-red-accent">
     <div class="mx-auto max-w-7xl px-6 lg:px-10 py-16">
         <div class="grid lg:grid-cols-12 gap-8 items-start">
             {{-- LEFT: card columns (2 stacked columns) --}}
@@ -38,43 +38,57 @@ $colB = $reviews->values()->filter(fn($v,$k)=>$k % 2 === 1);
                 <div class="grid grid-cols-2 gap-6" style="height:414px;">
                     {{-- Left column --}}
                     <div class="flex flex-col gap-6 scrollbox">
-                        @foreach($colA as $rev)
-                        <article class="rounded-xl bg-white p-4 shadow transition">
-                            <div class="flex items-center gap-3">
-                                <img class="h-10 w-10 rounded-full object-cover" src="{{ $rev->profile_url ?? asset('images/default-user.png') }}" alt="{{ $rev->name }}">
-                                <div class="min-w-0">
-                                    <h4 class="font-semibold text-slate-800 text-sm leading-tight">{{ $rev->name }}</h4>
-                                    <div class="mt-1 text-yellow-400 text-sm">
-                                        @for($i=0;$i<$rev->star;$i++) <i class="bi bi-star-fill"></i> @endfor
-                                        @for($i=$rev->star;$i<5;$i++) <i class="bi bi-star"></i> @endfor
+                        @foreach ($colA as $rev)
+                            <article class="rounded-xl bg-white p-4 shadow transition">
+                                <div class="flex items-center gap-3">
+                                    <img class="h-10 w-10 rounded-full object-cover"
+                                        src="{{ $rev->profile_url ?? asset('images/default-user.png') }}"
+                                        alt="{{ $rev->name }}">
+                                    <div class="min-w-0">
+                                        <h4 class="font-semibold text-slate-800 text-sm leading-tight">
+                                            {{ $rev->name }}</h4>
+                                        <div class="mt-1 text-yellow-400 text-sm">
+                                            @for ($i = 0; $i < $rev->star; $i++)
+                                                <i class="bi bi-star-fill"></i>
+                                            @endfor
+                                            @for ($i = $rev->star; $i < 5; $i++)
+                                                <i class="bi bi-star"></i>
+                                            @endfor
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <p class="mt-3 text-xs leading-relaxed text-slate-600">
-                                {{ $rev->content }}
-                            </p>
-                        </article>
+                                <p class="mt-3 text-xs leading-relaxed text-slate-600">
+                                    {{ $rev->content }}
+                                </p>
+                            </article>
                         @endforeach
                     </div>
 
                     {{-- Right column (offset for mockup look) --}}
                     <div class="flex flex-col gap-6 mt-10 scrollbox">
-                        @foreach($colB as $rev)
-                        <article class="rounded-xl bg-white p-4 shadow transition">
-                            <div class="flex items-center gap-3">
-                                <img class="h-10 w-10 rounded-full object-cover" src="{{ $rev->profile_url ?? asset('images/default-user.png') }}" alt="{{ $rev->name }}">
-                                <div class="min-w-0">
-                                    <h4 class="font-semibold text-slate-800 text-sm leading-tight">{{ $rev->name }}</h4>
-                                    <div class="mt-1 text-yellow-400 text-sm">
-                                        @for($i=0;$i<$rev->star;$i++) <i class="bi bi-star-fill"></i> @endfor
-                                        @for($i=$rev->star;$i<5;$i++) <i class="bi bi-star"></i> @endfor
+                        @foreach ($colB as $rev)
+                            <article class="rounded-xl bg-white p-4 shadow transition">
+                                <div class="flex items-center gap-3">
+                                    <img class="h-10 w-10 rounded-full object-cover"
+                                        src="{{ $rev->profile_url ?? asset('images/default-user.png') }}"
+                                        alt="{{ $rev->name }}">
+                                    <div class="min-w-0">
+                                        <h4 class="font-semibold text-slate-800 text-sm leading-tight">
+                                            {{ $rev->name }}</h4>
+                                        <div class="mt-1 text-yellow-400 text-sm">
+                                            @for ($i = 0; $i < $rev->star; $i++)
+                                                <i class="bi bi-star-fill"></i>
+                                            @endfor
+                                            @for ($i = $rev->star; $i < 5; $i++)
+                                                <i class="bi bi-star"></i>
+                                            @endfor
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <p class="mt-3 text-xs leading-relaxed text-slate-600">
-                                {{ $rev->content }}
-                            </p>
-                        </article>
+                                <p class="mt-3 text-xs leading-relaxed text-slate-600">
+                                    {{ $rev->content }}
+                                </p>
+                            </article>
                         @endforeach
                     </div>
                 </div>
@@ -91,7 +105,8 @@ $colB = $reviews->values()->filter(fn($v,$k)=>$k % 2 === 1);
                 <p class="mt-5 text-base/7 opacity-95 max-w-xl">
                     {{ $reviewPage?->content ?? 'No review description yet.' }}
                 </p>
-                <a href="https://wa.me/{{ $setting->wa_number }}?text={{ $setting->text_wa }}" target="_blank" rel="noopener" 
+                <a href="https://wa.me/{{ $setting->wa_number }}?text={{ $setting->text_wa }}" target="_blank"
+                    rel="noopener"
                     class="mt-6 inline-flex items-center rounded-full bg-white px-6 py-2.5 text-sm font-semibold text-red-700 hover:bg-slate-100">
                     Contact Us
                 </a>

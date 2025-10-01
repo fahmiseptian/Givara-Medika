@@ -18,11 +18,12 @@ export default {
             fontFamily: {
                 sans: ["Figtree", ...defaultTheme.fontFamily.sans],
             },
+            colors: {
+                "blue-accent": "#000C54",
+                "red-accent": "#BE0A0B",
+            },
         },
     },
 
-    plugins: [
-        forms,
-        require('daisyui'),
-    ],
+    plugins: [forms, require("daisyui")],
 };
