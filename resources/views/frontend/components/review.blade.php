@@ -34,7 +34,7 @@
     <div class="mx-auto max-w-7xl px-6 lg:px-10 py-16">
         <div class="grid lg:grid-cols-12 gap-8 items-start">
             {{-- LEFT: card columns (2 stacked columns) --}}
-            <div class="lg:col-span-7">
+            <div class="lg:col-span-7 animate-fadeInLeft">
                 <div class="grid grid-cols-2 gap-6" style="height:414px;">
                     {{-- Left column --}}
                     <div class="flex flex-col gap-6 scrollbox">
@@ -95,7 +95,7 @@
             </div>
 
             {{-- RIGHT: title + description + button --}}
-            <div class="lg:col-span-5 text-white lg:pl-8">
+            <div class="lg:col-span-5 text-white lg:pl-8 animate-fadeInRight">
                 <p class="text-[11px] font-semibold tracking-widest uppercase opacity-90">
                     {{ 'Customer Review' }}
                 </p>

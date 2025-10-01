@@ -19,7 +19,7 @@
 @endphp
 
 <section class="py-16 lg:py-20">
-    <div class="container mx-auto max-w-7xl px-6 lg:px-10">
+    <div class="container mx-auto max-w-7xl px-6 lg:px-10 animate-fadeInDown">
         {{-- Header --}}
         <div class="grid grid-cols-12 gap-8 mb-10">
             <div class="col-span-12 lg:col-span-6">
@@ -37,7 +37,7 @@
         </div>
 
         {{-- Cards --}}
-        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 animate-fadeInUp">
             @foreach ($services as $s)
                 <article
                     class="group flex flex-col rounded-2xl bg-white shadow-sm ring-1 ring-slate-200/70 hover:shadow-lg transition">
@@ -68,7 +68,7 @@
     </div>
 </section>
 
-<section class="container mx-auto px-6 py-12" style="padding-bottom: 200px;">
+<section class="container mx-auto px-6 py-12 animate-fadeInUp" style="padding-bottom: 200px;">
     <div class="container mx-auto max-w-7xl px-6 lg:px-10">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
 

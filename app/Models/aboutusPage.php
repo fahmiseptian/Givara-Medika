@@ -17,6 +17,7 @@ class AboutusPage extends Model implements HasMedia
     protected $fillable = [
         'title',
         'content',
+        'vision_and_mission',
     ];
 
     protected $hidden = [
