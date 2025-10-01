@@ -15,7 +15,7 @@
                         <h1 class="text-4xl font-extrabold leading-tight text-red-700">
                             {{ $aboutus->title }}
                         </h1>
-                        <div class="mt-4 text-md leading-relaxed text-slate-600">
+                        <div class="mt-4 text-md prose leading-relaxed text-slate-600">
                             {!! $aboutus->content !!}
                         </div>
                     </div>
@@ -24,6 +24,12 @@
                     <div class="flex flex-col gap-6">
                         <img src="{{ $aboutus->banner_url }}" alt="Banner About Us"
                             class="rounded-lg shadow object-cover w-full h-56 md:h-64">
+
+                        <div class="max-w-xl mt-4">
+                            <div class="mt-4 text-md prose leading-relaxed text-slate-600">
+                                {!! $aboutus->vision_and_mission !!}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
