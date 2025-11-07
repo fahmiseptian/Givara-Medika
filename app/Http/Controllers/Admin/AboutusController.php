@@ -90,6 +90,7 @@ class AboutusController extends Controller
             $aboutusPage = AboutusPage::create([
                 'title' => 'About Us Page Title',
                 'content' => 'About Us page content here.',
+                'vision_and_mission' => 'About Us page vision and mission here.',
             ]);
         }
         return view('admin.aboutus.detail', compact('aboutusPage'));
@@ -103,12 +104,14 @@ class AboutusController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'nullable|string',
+            'vision_and_mission' => 'nullable|string',
             'banner' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         $aboutusPage = AboutusPage::findOrFail($id);
         $aboutusPage->title = $request->title;
         $aboutusPage->content = $request->content;
+        $aboutusPage->vision_and_mission = $request->vision_and_mission;
         $aboutusPage->save();
 
         // Save banner image if uploaded, using Spatie Media Library

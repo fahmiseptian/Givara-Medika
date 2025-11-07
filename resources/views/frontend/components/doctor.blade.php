@@ -20,7 +20,7 @@
 
             <div class="grid grid-cols-12 gap-6 items-start">
                 {{-- Kiri: judul & deskripsi --}}
-                <div class="col-span-12 lg:col-span-4">
+                <div class="col-span-12 lg:col-span-4 animate-fadeInLeft">
                     <p class="uppercase tracking-widest text-[11px] text-white/70 mb-3">Our Doctors</p>
                     <h2 class="text-white font-extrabold leading-tight text-3xl xl:text-4xl 2xl:text-[34px] mb-4">
                         {{ $doctorPage->title ?? 'Your Headline or Tagline Here' }}
@@ -37,7 +37,7 @@
                 </div>
 
                 {{-- Kanan: 3 kartu dokter --}}
-                <div class="col-span-12 lg:col-span-8">
+                <div class="col-span-12 lg:col-span-8 animate-fadeInRight">
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                         @forelse($doctors as $doctor)
                             @php

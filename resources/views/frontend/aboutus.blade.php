@@ -1,5 +1,5 @@
 @php
-$setting = setting();
+    $setting = setting();
 @endphp
 
 <!DOCTYPE html>
@@ -11,8 +11,8 @@ $setting = setting();
 <head>
     @include('layouts.partials.css')
     @php
-    use App\Models\SeoMeta;
-    $seo = SeoMeta::where('page', 'about')->first();
+        use App\Models\SeoMeta;
+        $seo = SeoMeta::where('page', 'about')->first();
     @endphp
     <meta name="description" content="{{ $seo->meta_description ?? 'Default description' }}">
     <meta name="keywords" content="{{ $seo->meta_keywords ?? '' }}">
@@ -24,8 +24,8 @@ $setting = setting();
 <body class="font-sans antialiased bg-white">
     @include('frontend.components.navbar')
     @include('frontend.components.dashboard')
-    @include('frontend.components.aboutus')
     @include('frontend.components.about-us')
+    @include('frontend.components.videos')
     @include('frontend.components.footer')
     @include('layouts.partials.js')
 

@@ -36,7 +36,7 @@
         </div>
 
         {{-- Cards --}}
-        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 ">
             @foreach ($services as $s)
                 <article
                     class="group flex flex-col rounded-2xl bg-white shadow-sm ring-1 ring-slate-200/70 hover:shadow-lg transition">

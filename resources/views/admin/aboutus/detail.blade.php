@@ -16,7 +16,8 @@
                     </h3>
 
                     {{-- Assume $aboutusPage is an instance of aboutusPage model to be edited --}}
-                    <form action="{{ route('admin.aboutus.updatePage', $aboutusPage->id) }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('admin.aboutus.updatePage', $aboutusPage->id) }}" method="POST"
+                        enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
 
@@ -28,7 +29,7 @@
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
                                 value="{{ old('title', $aboutusPage->title) }}" required>
                             @error('title')
-                            <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
+                                <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
                             @enderror
                         </div>
 
@@ -36,10 +37,26 @@
                             <label for="content" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
                                 {{ __('Content') }}
                             </label>
-                            <textarea name="content" id="content" rows="5"
-                                class="summernote mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">{{ old('content', $aboutusPage->content) }}</textarea>
+                            <div class="summernote-container prose max-w-none">
+                                <textarea name="content" id="content" rows="5"
+                                    class="summernote mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">{{ old('content', $aboutusPage->content) }}</textarea>
+                            </div>
                             @error('content')
-                            <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
+                                <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="vision_and_mission"
+                                class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                {{ __('Vision and Mision') }}
+                            </label>
+                            <div class="summernote-container prose max-w-none">
+                                <textarea name="vision_and_mission" id="vision_and_mission" rows="5"
+                                    class="summernote mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">{{ old('vision_and_mission', $aboutusPage->vision_and_mission) }}</textarea>
+                            </div>
+                            @error('vision_and_mission')
+                                <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
                             @enderror
                         </div>
 
@@ -49,13 +66,14 @@
                             </label>
                             <input type="file" name="banner" id="banner"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
-                            @if(isset($aboutusPage->banner_url))
-                            <div class="mt-2">
-                                <img src="{{ $aboutusPage->banner_url }}" alt="Banner Saat Ini" class="h-24 rounded">
-                            </div>
+                            @if (isset($aboutusPage->banner_url))
+                                <div class="mt-2">
+                                    <img src="{{ $aboutusPage->banner_url }}" alt="Banner Saat Ini"
+                                        class="h-24 rounded">
+                                </div>
                             @endif
                             @error('banner')
-                            <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
+                                <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
                             @enderror
                         </div>
 

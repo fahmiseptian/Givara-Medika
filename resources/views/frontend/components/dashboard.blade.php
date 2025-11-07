@@ -24,7 +24,7 @@
 
     {{-- Konten --}}
     <div class="relative mx-auto h-full container">
-        <div class="flex h-full items-center">
+        <div class="flex h-full items-center animate-fadeInLeft">
             <div class="px-4 sm:px-6 lg:px-8 py-6 md:py-8 max-w-xl md:max-w-2xl mt-0 md:mt-20">
                 <p class="mb-3 text-xs tracking-widest uppercase text-blue-900/70">Welcome</p>
 
